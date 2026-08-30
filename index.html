@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>E-Portfolio - Yohanes Jelly Sonda</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -47,13 +47,14 @@
             }
         }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
         }
         [x-cloak] { display: none !important; }
 
@@ -87,7 +88,7 @@
           activeTab: 'home', 
           expandedArtefak: null, 
           isLoading: true,
-          activeHomeMap: 'smkn5',
+          isMobileMenuOpen: false,
           
           /* Tautan Google Drive Dokumen Resmi PPL Yohanes */
           driveLinks: {
@@ -96,12 +97,14 @@
               asesmenHots: 'https://drive.google.com/file/d/1YnYVtQH96yl2KR5-736cWUp6ndpAxNTu/view?usp=sharing',
               lampiran7: 'https://docs.google.com/spreadsheets/d/1_m9S39h2Y_V4hZpP6VlRjV7uW8u_6O_X/preview', 
               lampiran8: 'https://docs.google.com/document/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUYqyayX/preview',
+              penilaianPamong: 'https://docs.google.com/document/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUYqyayX/preview',
+              penilaianDpl: 'https://docs.google.com/document/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUYqyayX/preview',
               refleksiAkhir: 'https://docs.google.com/document/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUYqyayX/preview'
           },
           
           /* State Peninjau Aktif untuk Pengunjung */
           activeArtefakPreview: 'modulAjar',
-          activePenilaianPreview: 'lampiran7',
+          activePenilaianPreview: 'penilaianPamong',
 
           /* Fungsi bantu untuk mengubah link sharing biasa menjadi link preview/embed yang kompatibel */
           getEmbedUrl(url) {
@@ -124,7 +127,7 @@
               return cleanUrl;
           }
       }" 
-      x-init="setTimeout(() => isLoading = false, 3000)">
+      x-init="setTimeout(() => isLoading = false, 2500)">
 
     <div x-show="isLoading" class="fixed inset-0 bg-slate-900 flex flex-col items-center justify-center z-50 text-white p-4" x-transition:leave="transition ease-in duration-500 transform opacity-0">
         <div class="relative w-48 h-48 flex items-center justify-center">
@@ -156,33 +159,49 @@
 
     <header class="sticky top-0 z-40 bg-sun-400 border-b border-sun-500 shadow-sm transition-all" x-show="!isLoading" x-cloak>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <div class="flex items-center space-x-3 cursor-pointer" @click="activeTab = 'home'">
+            <div class="flex justify-between items-center h-16 sm:h-20">
+                <!-- Logo & Name -->
+                <div class="flex items-center space-x-3 cursor-pointer" @click="activeTab = 'home'; window.scrollTo({top: 0, behavior: 'smooth'})">
                     <div class="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center overflow-hidden rounded-xl bg-white p-1 shadow-sm border border-sun-500/20">
                         <img src="uny.png" alt="Logo UNY" class="w-full h-full object-contain" 
                              onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/a/ab/Logo_UNY.png';" />
                     </div>
                     <div>
-                        <span class="text-base sm:text-lg font-bold text-slate-900 block leading-tight">Yohanes Jelly Sonda</span>
-                        <span class="text-[10px] sm:text-xs font-bold text-sky-900 tracking-wider uppercase block">e-Portfolio </span>
+                        <span class="text-sm sm:text-lg font-bold text-slate-900 block leading-tight">Yohanes Jelly Sonda</span>
+                        <span class="text-[9px] sm:text-xs font-bold text-sky-900 tracking-wider uppercase block">e-Portfolio PPG</span>
                     </div>
                 </div>
 
-                <nav class="hidden md:flex space-x-1 lg:space-x-2">
-                    <button @click="activeTab = 'home'" :class="activeTab === 'home' ? 'bg-sky-600 text-white' : 'text-slate-900 hover:bg-sun-500/50 hover:text-slate-950'" class="px-4 py-2 rounded-lg text-sm font-medium transition-all">
+                <!-- Desktop Navigation Menu -->
+                <nav class="hidden md:flex items-center space-x-1 lg:space-x-2">
+                    <button @click="activeTab = 'home'; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'home' ? 'bg-sky-600 text-white shadow' : 'text-slate-900 hover:bg-sun-500/50 hover:text-slate-950'" class="px-3 lg:px-4 py-2 rounded-lg text-sm font-medium transition-all">
                         Beranda
                     </button>
-                    <button @click="activeTab = 'artefak'" :class="activeTab === 'artefak' ? 'bg-sky-600 text-white' : 'text-slate-900 hover:bg-sun-500/50 hover:text-slate-950'" class="px-4 py-2 rounded-lg text-sm font-medium transition-all">
+                    <button @click="activeTab = 'artefak'; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'artefak' ? 'bg-sky-600 text-white shadow' : 'text-slate-900 hover:bg-sun-500/50 hover:text-slate-950'" class="px-3 lg:px-4 py-2 rounded-lg text-sm font-medium transition-all">
                         Artefak & Analisis
                     </button>
-                    <button @click="activeTab = 'penilaian'" :class="activeTab === 'penilaian' ? 'bg-sky-600 text-white' : 'text-slate-900 hover:bg-sun-500/50 hover:text-slate-950'" class="px-4 py-2 rounded-lg text-sm font-medium transition-all">
+                    <button @click="activeTab = 'penilaian'; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'penilaian' ? 'bg-sky-600 text-white shadow' : 'text-slate-900 hover:bg-sun-500/50 hover:text-slate-950'" class="px-3 lg:px-4 py-2 rounded-lg text-sm font-medium transition-all">
                         Penilaian GP & DPL
                     </button>
-                    <button'bg-sky-600 text-white' : 'text-slate-900 hover:bg-sun-500/50 hover:text-slate-950'" class="px-4 py-2 rounded-lg text-sm font-medium transition-all">
-                        <a href= "https://yohanesjelly2025.github.io/seminar/"> Seminar PPG </a>
-                        
+                    <button @click="activeTab = 'refleksi'; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'refleksi' ? 'bg-sky-600 text-white shadow' : 'text-slate-900 hover:bg-sun-500/50 hover:text-slate-950'" class="px-3 lg:px-4 py-2 rounded-lg text-sm font-medium transition-all">
+                        Refleksi
                     </button>
+                    <a href="https://yohanesjelly2025.github.io/seminar/" target="_blank" class="px-3 lg:px-4 py-2 rounded-lg text-sm font-medium text-slate-900 hover:bg-sun-500/50 hover:text-slate-950 transition-all inline-block">
+                        Seminar PPG
+                    </a>
                 </nav>
+
+                <!-- Mobile Menu Toggle Button (Android / iOS) -->
+                <div class="flex md:hidden items-center space-x-2">
+                    <button @click="isMobileMenuOpen = !isMobileMenuOpen" class="bg-white/50 p-2 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-600">
+                        <svg x-show="!isMobileMenuOpen" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg x-show="isMobileMenuOpen" x-cloak class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
 
                 <div class="hidden lg:flex items-center space-x-2">
                     <span class="inline-flex items-center px-2 py-1 rounded bg-white/30 text-sky-900 text-[10px] font-bold">
@@ -191,29 +210,53 @@
                 </div>
             </div>
         </div>
+
+        <!-- Dropdown Menu for Mobile Devices (Android / iOS) -->
+        <div x-show="isMobileMenuOpen" 
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0 -translate-y-2"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-150"
+             x-transition:leave-start="opacity-100 translate-y-0"
+             x-transition:leave-end="opacity-0 -translate-y-2"
+             @click.away="isMobileMenuOpen = false"
+             class="md:hidden absolute top-full left-0 right-0 bg-white border-b border-cloud-200 shadow-xl z-50">
+            <div class="flex flex-col p-4 space-y-2">
+                <button @click="activeTab = 'home'; isMobileMenuOpen = false; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'home' ? 'bg-sky-50 text-sky-600 font-bold' : 'text-slate-700'" class="w-full text-left px-4 py-3 rounded-xl text-sm transition-all flex items-center space-x-3">
+                    <span>Beranda / Profil</span>
+                </button>
+                <button @click="activeTab = 'artefak'; isMobileMenuOpen = false; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'artefak' ? 'bg-sky-50 text-sky-600 font-bold' : 'text-slate-700'" class="w-full text-left px-4 py-3 rounded-xl text-sm transition-all flex items-center space-x-3">
+                    <span>Artefak & Analisis</span>
+                </button>
+                <button @click="activeTab = 'penilaian'; isMobileMenuOpen = false; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'penilaian' ? 'bg-sky-50 text-sky-600 font-bold' : 'text-slate-700'" class="w-full text-left px-4 py-3 rounded-xl text-sm transition-all flex items-center space-x-3">
+                    <span>Penilaian GP & DPL</span>
+                </button>
+                <button @click="activeTab = 'refleksi'; isMobileMenuOpen = false; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'refleksi' ? 'bg-sky-50 text-sky-600 font-bold' : 'text-slate-700'" class="w-full text-left px-4 py-3 rounded-xl text-sm transition-all flex items-center space-x-3">
+                    <span>Refleksi Akhir</span>
+                </button>
+                <a href="https://yohanesjelly2025.github.io/seminar/" target="_blank" class="w-full text-left px-4 py-3 text-slate-700 rounded-xl text-sm transition-all block">
+                    Seminar PPG ↗
+                </a>
+            </div>
+        </div>
     </header>
 
-    <main class="flex-grow pb-28 md:pb-16" x-show="!isLoading" x-cloak>
+    <main class="flex-grow pb-24 md:pb-16" x-show="!isLoading" x-cloak>
         
         <div x-show="activeTab === 'home'" x-transition:enter="transition ease-out duration-300" class="space-y-0">
             <section class="relative bg-sky-50 text-slate-800 py-12 sm:py-16 md:py-24 overflow-hidden min-h-[85vh] flex items-center border-b border-sky-100">
                 <div class="absolute inset-0 bg-[url('kelam.jpg')] bg-cover bg-center bg-no-repeat opacity-9 select-none pointer-events-none z-0"></div>
-                
                 <div class="absolute inset-0 bg-white/10 pointer-events-none z-0"></div>
                 
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
                     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center">
-                        
                         <div class="lg:col-span-5 flex flex-col items-center justify-center">
                           <div class="relative group animate-float">
-                            
                             <div class="absolute -inset-6 border border-dashed border-sky-500/20 rounded-full animate-orbit-cw pointer-events-none"></div>
-                            
                             <div class="absolute -inset-3 border border-sun-400/30 rounded-full animate-orbit-ccw pointer-events-none">
                                 <div class="absolute top-0 left-1/2 w-2 h-2 bg-sun-400 rounded-full -translate-x-1/2"></div>
                                 <div class="absolute bottom-0 left-1/2 w-2.5 h-2.5 bg-sky-300 rounded-full -translate-x-1/2 animate-ping"></div>
                             </div>
-
                             <div class="absolute -inset-1.5 bg-sky-400 rounded-full blur opacity-70 group-hover:opacity-100 transition duration-300"></div>
                             
                             <div class="relative rounded-full w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-80 overflow-hidden flex flex-col justify-between bg-transparent">
@@ -233,40 +276,37 @@
                         </div>
 
                         <div class="lg:col-span-7 relative z-10 overflow-hidden rounded-3xl border border-sky-200 bg-white p-5 sm:p-6 md:p-8 shadow-xl">
-                          
-                          <div class="absolute inset-0 bg-[url('background.jpg')] bg-cover bg-center mix-overlay-50 opacity-30 pointer-events-none z-0"></div>
-                          
-                          <div class="relative z-10 space-y-4 sm:space-y-6 text-center lg:text-left">
-                            <div class="inline-flex items-center space-x-2 bg-sky-100 text-sky-700 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-bold uppercase border border-sky-200">
-                              <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                              </svg>
-                              <span>E-Portfolio Refleksi Awal PPL</span>
-                            </div>
+                            <div class="absolute inset-0 bg-[url('background.jpg')] bg-cover bg-center mix-overlay-50 opacity-30 pointer-events-none z-0"></div>
                             
-                            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-slate-900">
-                              Membangun Fondasi Karakter <span class="text-sky-600">Guru Informatika</span>
-                            </h1>
-                            
-                            <p class="text-slate-600 leading-relaxed text-sm sm:text-base md:text-lg">
-                              Halo! Saya <strong class="text-slate-900 font-extrabold">Yohanes Jelly Sonda</strong>, mahasiswa PPG UNY calon guru Informatika. Saat ini saya melaksanakan PPL di <strong class="text-sky-600">SMKN 5 Yogyakarta</strong>, berkomitmen penuh untuk memadukan kecakapan digital dengan nilai karakter luhur pendidik.
-                            </p>
+                            <div class="relative z-10 space-y-4 sm:space-y-6 text-center lg:text-left">
+                                <div class="inline-flex items-center space-x-2 bg-sky-100 text-sky-700 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-bold uppercase border border-sky-200">
+                                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                                    </svg>
+                                    <span>E-Portfolio Refleksi Awal PPL</span>
+                                </div>
+                                
+                                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-slate-900">
+                                    Membangun Fondasi Karakter <span class="text-sky-600">Guru Informatika</span>
+                                </h1>
+                                
+                                <p class="text-slate-600 leading-relaxed text-sm sm:text-base md:text-lg">
+                                    Halo! Saya <strong class="text-slate-900 font-extrabold">Yohanes Jelly Sonda</strong>, mahasiswa PPG UNY calon guru Informatika. Saat ini saya melaksanakan PPL di <strong class="text-sky-600">SMKN 5 Yogyakarta</strong>, berkomitmen penuh untuk memadukan kecakapan digital dengan nilai karakter luhur pendidik.
+                                </p>
 
-                            <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
-                              <button @click="activeTab = 'artefak'; window.scrollTo({top: 0, behavior: 'smooth'})" class="w-full sm:w-auto bg-sky-500 hover:bg-sky-600 text-white font-semibold px-6 py-3 sm:px-8 sm:py-3.5 rounded-xl shadow-md transition-all flex items-center justify-center space-x-2 text-sm">
-                                <span>Jelajahi Artefak</span>
-                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                                </svg>
-                              </button>
-                              <button @click="document.getElementById('about-me').scrollIntoView({ behavior: 'smooth' })" class="w-full sm:w-auto bg-cloud-100 hover:bg-cloud-200 text-slate-800 font-semibold px-6 py-3 sm:px-8 sm:py-3.5 rounded-xl border border-cloud-300 transition-all text-center text-sm">
-                                Pelajari Profil Saya
-                              </button>
+                                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                                    <button @click="activeTab = 'artefak'; window.scrollTo({top: 0, behavior: 'smooth'})" class="w-full sm:w-auto bg-sky-500 hover:bg-sky-600 text-white font-semibold px-6 py-3 sm:px-8 sm:py-3.5 rounded-xl shadow-md transition-all flex items-center justify-center space-x-2 text-sm">
+                                        <span>Jelajahi Artefak</span>
+                                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                                        </svg>
+                                    </button>
+                                    <button @click="document.getElementById('about-me').scrollIntoView({ behavior: 'smooth' })" class="w-full sm:w-auto bg-cloud-100 hover:bg-cloud-200 text-slate-800 font-semibold px-6 py-3 sm:px-8 sm:py-3.5 rounded-xl border border-cloud-300 transition-all text-center text-sm">
+                                        Pelajari Profil Saya
+                                    </button>
+                                </div>
                             </div>
-                          </div>
-
                         </div>
-
                     </div>
                 </div>
             </section>
@@ -274,16 +314,15 @@
             <section class="py-12 bg-white border-b border-cloud-200">
                 <div class="max-w-4xl mx-auto px-4 text-center">
                     <span class="text-sky-600 text-xs font-bold uppercase tracking-widest block mb-2">Esensi Portofolio</span>
-                    <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-4">Mengapa E-Portfolio 1 ini Penting?</h2>
+                    <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-4">Mengapa E-Portfolio ini Penting?</h2>
                     <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
-                        E-Portfolio ini dikembangkan as instrumen refleksi awal yang holistik selama pelaksanaan Pendidikan Profesi Guru Di dalamnya tersaji landasan karakter pendidik, kompilasi perangkat ajar inovatif, evaluasi kritis dari Guru Pamong dan Dosen Pembimbing Laporan (DPL), serta visi masa depan saya sebagai model guru yang diimpikan.
+                        E-Portfolio ini dikembangkan sebagai instrumen refleksi awal yang holistik selama pelaksanaan Pendidikan Profesi Guru. Di dalamnya tersaji landasan karakter pendidik, kompilasi perangkat ajar inovatif, evaluasi kritis dari Guru Pamong dan Dosen Pembimbing Lapangan (DPL), serta visi masa depan saya sebagai model guru yang diimpikan.
                     </p>
                 </div>
             </section>
 
             <section id="about-me" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-                    
                     <div class="lg:col-span-7 space-y-6">
                         <div class="border-l-4 border-sky-500 pl-4">
                             <span class="text-xs font-bold tracking-wider text-sky-600 uppercase">Identitas & Tanah Kelahiran</span>
@@ -291,7 +330,7 @@
                         </div>
                         
                         <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
-                            Saya lahir dan dibesarkan di <strong class="text-slate-900">Kabupaten Sintang, Kalimantan Barat</strong>. Menjadi putra daerah Sintang membentuk karakter diri saya yang ulet, menghargai keberagaman, dan memiliki kedekatan emosional yang tinggi dengan keunikan alam serta warisan budaya lokal yang eksotis.
+                            Saya lahir dan dibesarkan di <strong class="text-slate-900">Kabupaten Sintang, Kalimantan Barat</strong>. Menjadi putra daerah Sintang membentuk karakter diri saya yang ulet, menghargai keberagaman, dan memiliki kedekatan emosional yang tinggi dengan keunikan alam serta warisan budaya lokal.
                         </p>
 
                         <div class="space-y-6 pt-2">
@@ -301,76 +340,47 @@
                             </h4>
 
                             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                                
                                 <div class="bg-white rounded-xl border border-cloud-200 overflow-hidden shadow-sm hover:shadow-md hover:border-sky-300 transition-all flex flex-col group">
                                     <div class="h-40 w-full overflow-hidden bg-cloud-100 relative">
-                                        <img 
-                                            src="saka3.png" 
-                                            alt="Pertemuan Sungai Melawi dan Kapuas Sintang" 
-                                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                            onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=600&q=80';"
-                                        />
+                                        <img src="saka3.png" alt="Saka Tiga Kapuas - Melawi" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=600&q=80';" />
                                         <div class="absolute inset-0 bg-slate-950/40"></div>
-                                        <span class="absolute bottom-2 left-3 text-white text-[10px] font-bold tracking-widest uppercase bg-sky-600 px-2 py-0.5 rounded">
-                                            Geografis
-                                        </span>
+                                        <span class="absolute bottom-2 left-3 text-white text-[10px] font-bold tracking-widest uppercase bg-sky-600 px-2 py-0.5 rounded">Geografis</span>
                                     </div>
                                     <div class="p-4 flex-grow flex flex-col justify-between">
                                         <div>
                                             <h5 class="font-bold text-slate-900 text-sm mb-1">1. Saka Tiga Kapuas - Melawi</h5>
-                                            <p class="text-xs text-slate-600 leading-relaxed">
-                                                Pertemuan Sungai Melawi dan Kapuas membentuk pertigaan air (Saka Tiga) sebagai nadi sejarah perdagangan Sintang.
-                                            </p>
+                                            <p class="text-xs text-slate-600 leading-relaxed">Pertemuan Sungai Melawi dan Kapuas membentuk pertigaan air (Saka Tiga) sebagai nadi sejarah perdagangan.</p>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="bg-white rounded-xl border border-cloud-200 overflow-hidden shadow-sm hover:shadow-md hover:border-sky-300 transition-all flex flex-col group">
                                     <div class="h-40 w-full overflow-hidden bg-cloud-100 relative">
-                                        <img 
-                                            src="kelam.jpg" 
-                                            alt="Bukit Kelam Sintang" 
-                                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                            onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80';"
-                                        />
+                                        <img src="kelam.jpg" alt="Bukit Kelam Sintang" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80';" />
                                         <div class="absolute inset-0 bg-slate-950/40"></div>
-                                        <span class="absolute bottom-2 left-3 text-white text-[10px] font-bold tracking-widest uppercase bg-sky-600 px-2 py-0.5 rounded">
-                                            Bentang Alam
-                                        </span>
+                                        <span class="absolute bottom-2 left-3 text-white text-[10px] font-bold tracking-widest uppercase bg-sky-600 px-2 py-0.5 rounded">Bentang Alam</span>
                                     </div>
                                     <div class="p-4 flex-grow flex flex-col justify-between">
                                         <div>
                                             <h5 class="font-bold text-slate-900 text-sm mb-1">2. Bukit Kelam yang Megah</h5>
-                                            <p class="text-xs text-slate-600 leading-relaxed">
-                                                Batu monolit raksasa terbesar kedua di dunia setinggi 1.002 MDPL, menawarkan habitat alami flora langka Sintang.
-                                            </p>
+                                            <p class="text-xs text-slate-600 leading-relaxed">Batu monolit raksasa terbesar kedua di dunia setinggi 1.002 MDPL, menawarkan keindahan alam eksotis.</p>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="bg-white rounded-xl border border-cloud-200 overflow-hidden shadow-sm hover:shadow-md hover:border-sky-300 transition-all flex flex-col group text-slate-800">
+                                <div class="bg-white rounded-xl border border-cloud-200 overflow-hidden shadow-sm hover:shadow-md hover:border-sky-300 transition-all flex flex-col group">
                                     <div class="h-40 w-full overflow-hidden bg-cloud-100 relative">
-                                        <img 
-                                            src="tenun.png" 
-                                            alt="Tenun Ikat Dayak Sintang" 
-                                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                            onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?auto=format&fit=crop&w=600&q=80';"
-                                        />
+                                        <img src="tenun.png" alt="Tenun Ikat Dayak Sintang" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?auto=format&fit=crop&w=600&q=80';" />
                                         <div class="absolute inset-0 bg-slate-950/40"></div>
-                                        <span class="absolute bottom-2 left-3 text-white text-[10px] font-bold tracking-widest uppercase bg-sky-600 px-2 py-0.5 rounded">
-                                            Warisan Budaya
-                                        </span>
+                                        <span class="absolute bottom-2 left-3 text-white text-[10px] font-bold tracking-widest uppercase bg-sky-600 px-2 py-0.5 rounded">Warisan Budaya</span>
                                     </div>
                                     <div class="p-4 flex-grow flex flex-col justify-between">
                                         <div>
                                             <h5 class="font-bold text-slate-900 text-sm mb-1">3. Tenun Ikat Dayak Sintang</h5>
-                                            <p class="text-xs text-slate-600 leading-relaxed">
-                                                Kain tenun tradisional premium yang dibuat menggunakan zat pewarna alami tumbuhan hutan Sintang yang sarat filosofi spiritual.
-                                            </p>
+                                            <p class="text-xs text-slate-600 leading-relaxed">Kain tenun tradisional premium yang dibuat menggunakan pewarna alami tumbuhan hutan Sintang.</p>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -382,29 +392,27 @@
                         </div>
 
                         <p class="text-slate-600 text-sm leading-relaxed">
-                            Mengamati pekrkembangan akselerasi pesat teknologi informasi mendorong kuat tekad saya untuk menjadi jembatan ilmu. Saya ingin memastikan bahwa Murid generasi masa kini, dari mana pun mereka berasal, memiliki kecakapan digital (*digital literacy*) mumpuni yang diimbangi etika moral yang luhur.
+                            Mengamati perkembangan pesat teknologi informasi mendorong kuat tekad saya untuk menjadi jembatan ilmu. Saya ingin memastikan bahwa murid generasi masa kini memiliki kecakapan digital (<em class="text-sky-600 font-semibold">digital literacy</em>) mumpuni yang diimbangi etika moral yang luhur.
                         </p>
 
                         <p class="text-slate-600 text-sm leading-relaxed border-l-2 border-sky-500 pl-3">
-                            <strong class="text-slate-900">Tujuan Profesional Saya:</strong> Menjadi guru Informatika yang bukan hanya mengajarkan baris kode pemrograman, melainkan fasilitator berpikir kritis (*computational thinking*) yang humanis sesuai filosofi pendidikan Ki Hadjar Dewantara.
+                            <strong class="text-slate-900">Tujuan Profesional Saya:</strong> Menjadi guru Informatika yang bukan hanya mengajarkan baris kode pemrograman, melainkan fasilitator berpikir kritis (<em class="text-sky-600 font-semibold">computational thinking</em>) yang humanis.
                         </p>
 
                         <div class="bg-sky-50 p-5 rounded-xl text-center border-l-4 border-sun-400 space-y-2 relative overflow-hidden">
                             <span class="absolute top-1 left-2 text-6xl text-sky-200/50 font-serif">“</span>
                             <p class="italic font-medium text-xs sm:text-sm text-slate-700 relative z-10">
-                                "Teknologi hanyalah alat. Namun dalam memotivasi murid dan menginspirasi kolaborasi, gurulah yang paling utama dalam menentukan arah peradaban."
+                                "Teknologi hanyalah alat. Namun dalam memotivasi murid dan menginspirasi kolaborasi, gurulah yang paling utama."
                             </p>
                             <span class="text-xs font-bold block text-sky-600 uppercase tracking-wider">— Yohanes Jelly Sonda</span>
                         </div>
                     </div>
-
                 </div>
             </section>
 
             <section class="bg-cloud-100 py-12 sm:py-16 border-b border-cloud-200">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        
                         <div class="bg-white p-5 sm:p-6 md:p-8 rounded-2xl shadow-md border border-cloud-200 space-y-6 flex flex-col justify-between">
                             <div>
                                 <h4 class="text-lg font-bold text-slate-900 flex items-center space-x-2.5 pb-2 border-b border-cloud-100">
@@ -420,9 +428,7 @@
                                     <div class="relative">
                                         <div class="absolute -left-[25px] sm:-left-[31px] top-1.5 bg-sky-500 text-white w-4 h-4 rounded-full border-2 border-white flex items-center justify-center shadow-sm"></div>
                                         <div class="space-y-1">
-                                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-semibold bg-sky-100 text-sky-800">
-                                                Lulus 2022
-                                            </span>
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-semibold bg-sky-100 text-sky-800">Lulus 2022</span>
                                             <h5 class="text-sm sm:text-base font-bold text-slate-900">Universitas Nusa Mandiri Kota Depok</h5>
                                             <p class="text-xs sm:text-sm font-medium text-slate-600">Sarjana Sistem Informasi (S1)</p>
                                         </div>
@@ -431,9 +437,7 @@
                                     <div class="relative">
                                         <div class="absolute -left-[25px] sm:-left-[31px] top-1.5 bg-sky-400 text-white w-4 h-4 rounded-full border-2 border-white flex items-center justify-center shadow-sm"></div>
                                         <div class="space-y-1">
-                                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-semibold bg-cloud-100 text-slate-700">
-                                                Lulus 2019
-                                            </span>
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-semibold bg-cloud-100 text-slate-700">Lulus 2019</span>
                                             <h5 class="text-sm sm:text-base font-bold text-slate-900">UNIVERSITAS BSI Kota Pontianak</h5>
                                             <p class="text-xs sm:text-sm font-medium text-slate-600">D3 Sistem Informasi</p>
                                         </div>
@@ -442,9 +446,7 @@
                                     <div class="relative">
                                         <div class="absolute -left-[25px] sm:-left-[31px] top-1.5 bg-sky-300 text-white w-4 h-4 rounded-full border-2 border-white flex items-center justify-center shadow-sm"></div>
                                         <div class="space-y-1">
-                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-semibold bg-cloud-100 text-slate-700">
-                                                Lulus 2015
-                                            </span>
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-semibold bg-cloud-100 text-slate-700">Lulus 2015</span>
                                             <h5 class="text-sm sm:text-base font-bold text-slate-900">SMK N 1 Sintang</h5>
                                             <p class="text-xs sm:text-sm font-medium text-slate-600">Teknik Komputer dan Jaringan (TKJ)</p>
                                         </div>
@@ -454,7 +456,6 @@
                         </div>
 
                         <div class="bg-white p-5 sm:p-6 md:p-8 rounded-2xl shadow-md border border-cloud-200 space-y-6 flex flex-col justify-between">
-                            
                             <div class="space-y-4">
                                 <h4 class="text-lg font-bold text-slate-900 flex items-center space-x-2.5 pb-2 border-b border-cloud-100">
                                     <svg class="w-6 h-6 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -464,26 +465,18 @@
                                     <span>Peta Titik Lokasi Instansi</span>
                                 </h4>
                                 <p class="text-xs text-slate-500 leading-relaxed">
-                                    Tinjauan spasial LPTK tempat menempuh studi pendidikan profesi guru dan lokasi sekolah tempat pelaksanaan praktik pengalaman lapangan (PPL).
+                                    Tinjauan spasial LPTK tempat menempuh studi dan sekolah tempat pelaksanaan praktik pengalaman lapangan (PPL).
                                 </p>
                             </div>
 
-                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-6">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <div class="space-y-3 flex flex-col justify-between">
                                     <div class="space-y-1">
                                         <span class="text-[10px] font-bold tracking-wider text-sky-600 uppercase block">LPTK KAMPUS</span>
                                         <span class="font-extrabold text-sm text-slate-900 block leading-tight">Universitas Negeri Yogyakarta</span>
                                     </div>
-                                    <div class="relative w-full h-[180px] border border-cloud-200 rounded-xl overflow-hidden bg-cloud-100 shadow-inner">
-                                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1m2!1s0x2e7a59bc060da6e1%3A0x6a05e263fb3be69c!2sUniversitas%20Negeri%20Yogyakarta!5m2!1sid!2sid" 
-                                                class="w-full h-full border-0" 
-                                                allowfullscreen="" 
-                                                loading="lazy" 
-                                                referrerpolicy="no-referrer-when-downgrade">
-                                        </iframe>
-                                    </div>
-                                    <div class="bg-cloud-50 p-3 rounded-xl border border-cloud-200 text-[11px] text-slate-600">
-                                        <p><strong>Alamat:</strong> Jl. Colombo No.1, Karang Malang, Sleman, DIY 55281</p>
+                                    <div class="relative w-full h-[160px] border border-cloud-200 rounded-xl overflow-hidden bg-cloud-100 shadow-inner">
+                                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1m2!1s0x2e7a59bc060da6e1%3A0x6a05e263fb3be69c!2sUniversitas%20Negeri%20Yogyakarta!5m2!1sid!2sid" class="w-full h-full border-0" allowfullscreen="" loading="lazy"></iframe>
                                     </div>
                                 </div>
 
@@ -492,22 +485,12 @@
                                         <span class="text-[10px] font-bold tracking-wider text-sky-600 uppercase block">SEKOLAH PPL</span>
                                         <span class="font-extrabold text-sm text-slate-900 block leading-tight">SMK Negeri 5 Yogyakarta</span>
                                     </div>
-                                    <div class="relative w-full h-[180px] border border-cloud-200 rounded-xl overflow-hidden bg-cloud-100 shadow-inner">
-                                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1m2!1s0x2e7a5998df9813fd%3A0x8e826437fb0af547!2sSMK%20Negeri%205%20Yogyakarta!5m2!1sid!2sid" 
-                                                class="w-full h-full border-0" 
-                                                allowfullscreen="" 
-                                                loading="lazy" 
-                                                referrerpolicy="no-referrer-when-downgrade">
-                                        </iframe>
-                                    </div>
-                                    <div class="bg-cloud-50 p-3 rounded-xl border border-cloud-200 text-[11px] text-slate-600">
-                                        <p><strong>Alamat:</strong> Jl. Kenari No.4, Mujamuju, Kec. Umbulharjo, Kota Yogyakarta, DIY 55165</p>
+                                    <div class="relative w-full h-[160px] border border-cloud-200 rounded-xl overflow-hidden bg-cloud-100 shadow-inner">
+                                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1m2!1s0x2e7a5998df9813fd%3A0x8e826437fb0af547!2sSMK%20Negeri%205%20Yogyakarta!5m2!1sid!2sid" class="w-full h-full border-0" allowfullscreen="" loading="lazy"></iframe>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
                 </div>
             </section>
@@ -518,7 +501,7 @@
                 <span class="text-sky-600 text-xs font-bold uppercase tracking-widest block">Dokumentasi & Kajian</span>
                 <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900">Analisis Artefak Pembelajaran</h2>
                 <p class="text-sm sm:text-base text-slate-600">
-                    Berikut adalah ragam produk rencana dan perangkat pembelajaran yang dikembangkan selama siklus PPL Terbimbing, dianalisis secara komprehensif berdasarkan landasan teoretis pedagogik.
+                    Berikut adalah ragam produk rencana dan perangkat pembelajaran yang dikembangkan selama siklus PPL Terbimbing.
                 </p>
             </div>
 
@@ -532,9 +515,7 @@
                         </p>
                         
                         <div class="space-y-2 pt-2">
-                            <button @click="activeArtefakPreview = 'modulAjar'" 
-                                    :class="activeArtefakPreview === 'modulAjar' ? 'bg-sky-500 text-white' : 'bg-white text-slate-700 hover:bg-sky-100 border border-cloud-200'"
-                                    class="w-full p-3 sm:p-3.5 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
+                            <button @click="activeArtefakPreview = 'modulAjar'" :class="activeArtefakPreview === 'modulAjar' ? 'bg-sky-500 text-white' : 'bg-white text-slate-700 hover:bg-sky-100 border border-cloud-200'" class="w-full p-3.5 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
                                 <span class="flex items-center space-x-2">
                                     <span class="w-2 h-2 rounded-full" :class="activeArtefakPreview === 'modulAjar' ? 'bg-sun-300' : 'bg-sky-500'"></span>
                                     <span>RPP (Siklus 1)</span>
@@ -542,9 +523,7 @@
                                 <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
                             </button>
 
-                            <button @click="activeArtefakPreview = 'mediaInteraktif'" 
-                                    :class="activeArtefakPreview === 'mediaInteraktif' ? 'bg-sky-500 text-white' : 'bg-white text-slate-700 hover:bg-sky-100 border border-cloud-200'"
-                                    class="w-full p-3 sm:p-3.5 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
+                            <button @click="activeArtefakPreview = 'mediaInteraktif'" :class="activeArtefakPreview === 'mediaInteraktif' ? 'bg-sky-500 text-white' : 'bg-white text-slate-700 hover:bg-sky-100 border border-cloud-200'" class="w-full p-3.5 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
                                 <span class="flex items-center space-x-2">
                                     <span class="w-2 h-2 rounded-full" :class="activeArtefakPreview === 'mediaInteraktif' ? 'bg-sun-300' : 'bg-sky-400'"></span>
                                     <span>RPP (Siklus 2)</span>
@@ -552,9 +531,7 @@
                                 <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
                             </button>
 
-                            <button @click="activeArtefakPreview = 'asesmenHots'" 
-                                    :class="activeArtefakPreview === 'asesmenHots' ? 'bg-sky-500 text-white' : 'bg-white text-slate-700 hover:bg-sky-100 border border-cloud-200'"
-                                    class="w-full p-3 sm:p-3.5 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
+                            <button @click="activeArtefakPreview = 'asesmenHots'" :class="activeArtefakPreview === 'asesmenHots' ? 'bg-sky-500 text-white' : 'bg-white text-slate-700 hover:bg-sky-100 border border-cloud-200'" class="w-full p-3.5 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
                                 <span class="flex items-center space-x-2">
                                     <span class="w-2 h-2 rounded-full" :class="activeArtefakPreview === 'asesmenHots' ? 'bg-sun-300' : 'bg-sun-500'"></span>
                                     <span>RPP (Siklus 3)</span>
@@ -570,16 +547,9 @@
                             <span class="text-slate-500">Format Embed:</span>
                             <span class="font-bold text-sky-600">Google Drive Preview</span>
                         </div>
-                        <div class="flex justify-between">
-                            <span class="text-slate-500">Status Akses:</span>
-                            <span class="font-bold text-emerald-600">Terbuka Publik</span>
-                        </div>
                         <div class="pt-2">
                             <a :href="driveLinks[activeArtefakPreview]" target="_blank" class="w-full py-2 bg-sun-400 hover:bg-sun-500 text-slate-900 font-bold rounded-lg flex items-center justify-center space-x-1 transition-colors text-xs">
-                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                </svg>
-                                <span>Buka Tab Baru</span>
+                                <span>Buka Tab Baru ↗</span>
                             </a>
                         </div>
                     </div>
@@ -593,23 +563,22 @@
                             <span x-show="activeArtefakPreview === 'mediaInteraktif'">Pratinjau RPP (Siklus 2)</span>
                             <span x-show="activeArtefakPreview === 'asesmenHots'">Pratinjau RPP (Siklus 3)</span>
                         </span>
-                        <span class="text-[10px] text-slate-400">SMKN 5 Yogyakarta • Informatika</span>
+                        <span class="text-[10px] text-slate-400">SMKN 5 Yogyakarta</span>
                     </div>
 
-                    <div class="w-full h-[320px] sm:h-[400px] md:h-[450px] border border-cloud-200 rounded-xl bg-cloud-100 relative shadow-inner overflow-hidden">
+                    <div class="w-full h-[350px] sm:h-[450px] border border-cloud-200 rounded-xl bg-cloud-100 relative shadow-inner overflow-hidden">
                         <iframe :src="getEmbedUrl(driveLinks[activeArtefakPreview])" class="w-full h-full" allow="autoplay" frameborder="0"></iframe>
                     </div>
-                    <p class="text-[11px] text-slate-400 italic text-center">
-                        *Catatan: Apabila dokumen tidak muncul, pastikan Anda telah masuk ke akun Google atau periksa koneksi/signal Anda.
-                    </p>
                 </div>
             </div>
-            <div x-show="activeTab === 'penilaian'" x-transition:enter="transition ease-out duration-300" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12" x-cloak>
+        </div>
+
+        <div x-show="activeTab === 'penilaian'" x-transition:enter="transition ease-out duration-300" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12" x-cloak>
             <div class="text-center max-w-3xl mx-auto space-y-3">
               <span class="text-sky-600 text-xs font-bold uppercase tracking-widest block">Evaluasi Resmi</span>
               <h2 class="text-3xl md:text-4xl font-extrabold text-slate-950">Instrumen Penilaian PPL Terbimbing</h2>
               <p class="text-sm sm:text-base text-slate-600">
-                Dokumentasi transparansi nilai evaluasi kompetensi akademik dan kepribadian mengajar yang diberikan oleh Guru Pamong (GP) serta Dosen Pembimbing Laporan (DPL) selama 3 Siklus PPL.
+                Dokumentasi transparansi nilai evaluasi kompetensi akademik dan kepribadian mengajar yang diberikan oleh Guru Pamong (GP) serta Dosen Pembimbing Lapangan (DPL).
               </p>
             </div>
 
@@ -617,50 +586,45 @@
                 <div class="lg:col-span-4 bg-cloud-50 p-5 sm:p-6 border-r border-cloud-200 flex flex-col justify-between space-y-6">
                     <div class="space-y-4">
                         <span class="text-[10px] font-bold tracking-widest uppercase text-sky-600 block">Hub Peninjau Penilaian</span>
-                        <h3 class="text-xl font-extrabold text-slate-900">Tinjau Evaluasi PPL</h3>
+                        <h3 class="text-xl font-extrabold text-slate-900">Pilih Berkas Penilaian</h3>
                         <p class="text-xs text-slate-500 leading-relaxed">
-                            Pilih instrumen penilaian di bawah untuk memunculkan pindaian piringan penilaian resmi asli yang disahkan GP dan DPL.
+                            Pilih dokumen resmi di bawah ini untuk menampilkan pindaian hasil penilaian asli.
                         </p>
                         
                         <div class="space-y-2 pt-2">
-                            <button @click="activePenilaianPreview = 'lampiran7'" 
-                                    :class="activePenilaianPreview === 'lampiran7' ? 'bg-sky-500 text-white' : 'bg-white text-slate-700 hover:bg-sky-100 border border-cloud-200'"
-                                    class="w-full p-3 sm:p-3.5 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
+                            <!-- 1. Penilaian Guru Pamong -->
+                            <button @click="activePenilaianPreview = 'penilaianPamong'" 
+                                    :class="activePenilaianPreview === 'penilaianPamong' ? 'bg-sky-500 text-white' : 'bg-white text-slate-700 hover:bg-sky-100 border border-cloud-200'"
+                                    class="w-full p-3.5 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
                                 <span class="flex items-center space-x-2">
-                                    <span class="w-2.5 h-2.5 rounded-full" :class="activePenilaianPreview === 'lampiran7' ? 'bg-sun-300' : 'bg-sky-500'"></span>
-                                    <span>Lampiran 7 (Perangkat Ajar)</span>
+                                    <span class="w-2.5 h-2.5 rounded-full" :class="activePenilaianPreview === 'penilaianPamong' ? 'bg-sun-300' : 'bg-sky-500'"></span>
+                                    <span>1. Penilaian Guru Pamong</span>
                                 </span>
-                                <span class="text-[10px] px-2 py-0.5 rounded bg-white/20 font-black">94.5</span>
+                                <span class="text-[10px] px-2 py-0.5 rounded bg-white/20 font-bold">GP</span>
                             </button>
 
-                            <button @click="activePenilaianPreview = 'lampiran8'" 
-                                    :class="activePenilaianPreview === 'lampiran8' ? 'bg-sky-500 text-white' : 'bg-white text-slate-700 hover:bg-sky-100 border border-cloud-200'"
-                                    class="w-full p-3 sm:p-3.5 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
+                            <!-- 2. Pratinjau Penilaian Dosen Pembimbing Lapangan -->
+                            <button @click="activePenilaianPreview = 'penilaianDpl'" 
+                                    :class="activePenilaianPreview === 'penilaianDpl' ? 'bg-sky-500 text-white' : 'bg-white text-slate-700 hover:bg-sky-100 border border-cloud-200'"
+                                    class="w-full p-3.5 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
                                 <span class="flex items-center space-x-2">
-                                    <span class="w-2.5 h-2.5 rounded-full" :class="activePenilaianPreview === 'lampiran8' ? 'bg-sun-300' : 'bg-sky-400'"></span>
-                                    <span>Lampiran 8 (Praktik Mengajar)</span>
+                                    <span class="w-2.5 h-2.5 rounded-full" :class="activePenilaianPreview === 'penilaianDpl' ? 'bg-sun-300' : 'bg-sky-400'"></span>
+                                    <span>2. Penilaian DPL</span>
                                 </span>
-                                <span class="text-[10px] px-2 py-0.5 rounded bg-white/20 font-black">95.2</span>
+                                <span class="text-[10px] px-2 py-0.5 rounded bg-white/20 font-bold">DPL</span>
                             </button>
                         </div>
                     </div>
 
                     <div class="bg-white p-4 rounded-xl border border-cloud-200 text-[11px] space-y-2">
-                        <span class="font-extrabold text-slate-800 uppercase block border-b border-cloud-100 pb-1.5">Meta Penilaian</span>
+                        <span class="font-extrabold text-slate-800 uppercase block border-b border-cloud-100 pb-1.5">Validasi Dokumen</span>
                         <div class="flex justify-between">
-                            <span class="text-slate-500">Penilai 1:</span>
-                            <span class="font-bold text-slate-700">Guru Pamong (GP)</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-slate-500">Penilai 2:</span>
-                            <span class="font-bold text-slate-700">Dosen Pembimbing (DPL)</span>
+                            <span class="text-slate-500">Status:</span>
+                            <span class="font-bold text-emerald-600">Disahkan Resmi</span>
                         </div>
                         <div class="pt-2">
                             <a :href="driveLinks[activePenilaianPreview]" target="_blank" class="w-full py-2 bg-sun-400 hover:bg-sun-500 text-slate-900 font-bold rounded-lg flex items-center justify-center space-x-1 transition-colors text-xs">
-                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                </svg>
-                                <span>Perbesar Berkas Resmi</span>
+                                <span>Buka Tab Baru ↗</span>
                             </a>
                         </div>
                     </div>
@@ -670,31 +634,25 @@
                     <div class="flex items-center justify-between border-b border-cloud-100 pb-3">
                         <span class="text-xs font-bold text-slate-500 flex items-center space-x-1.5">
                             <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span>
-                            <span x-show="activePenilaianPreview === 'lampiran7'">Pratinjau Lembar Lampiran 7 (Perangkat)</span>
-                            <span x-show="activePenilaianPreview === 'lampiran8'">Pratinjau Lembar Lampiran 8 (Praktik Mengajar)</span>
+                            <span x-show="activePenilaianPreview === 'penilaianPamong'">Pratinjau: Penilaian Guru Pamong</span>
+                            <span x-show="activePenilaianPreview === 'penilaianDpl'">Pratinjau: Penilaian Dosen Pembimbing Lapangan (DPL)</span>
                         </span>
-                        <span class="text-[10px] text-slate-400">Lembar Penilaian Siklus 1 - 3</span>
+                        <span class="text-[10px] text-slate-400">Dokumen PDF Asli</span>
                     </div>
 
-                    <div class="w-full h-[320px] sm:h-[400px] border border-cloud-200 rounded-xl bg-cloud-100 relative shadow-inner overflow-hidden">
+                    <div class="w-full h-[350px] sm:h-[450px] border border-cloud-200 rounded-xl bg-cloud-100 relative shadow-inner overflow-hidden">
                         <iframe :src="getEmbedUrl(driveLinks[activePenilaianPreview])" class="w-full h-full" allow="autoplay" frameborder="0"></iframe>
                     </div>
-                    <p class="text-[11px] text-slate-400 italic text-center">
-                        *Catatan: Lembar Penilaian ini diisi dan divalidasi langsung oleh Dosen Pembimbing UNY & Guru Pamong SMKN 5 Yogyakarta.
-                    </p>
                 </div>
             </div>
         </div>
-    </div>
 
-            
-          
         <div x-show="activeTab === 'refleksi'" x-transition:enter="transition ease-out duration-300" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12" x-cloak>
             <div class="text-center max-w-3xl mx-auto space-y-3">
               <span class="text-sky-600 text-xs font-bold uppercase tracking-widest block">Arah & Landasan</span>
               <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900">Model Guru Masa Depan</h2>
               <p class="text-sm sm:text-base text-slate-600">
-                Gagasan ideal mengenai profil, karakter, serta nilai-nilai profesionalisme pendidik yang ingin saya wujudkan demi kemajuan anak didik.
+                Gagasan ideal mengenai profil, karakter, serta nilai-nilai profesionalisme pendidik.
               </p>
             </div>
 
@@ -704,22 +662,12 @@
                         <span class="text-[10px] font-bold tracking-widest uppercase text-sky-600 block">Hub Peninjau Laporan</span>
                         <h3 class="text-xl font-extrabold text-slate-900">Tinjau Refleksi Akhir</h3>
                         <p class="text-xs text-slate-500 leading-relaxed">
-                            Laporan Refleksi Akhir Komprehensif memuat seluruh evaluasi, analisis SWOT diri, dan Rencana Tindak Lanjut (RTL) Yohanes selama  di SMKN 5 Yogyakarta.
+                            Laporan Refleksi Akhir Komprehensif memuat seluruh evaluasi, analisis SWOT diri, dan Rencana Tindak Lanjut (RTL).
                         </p>
-                        <div class="bg-sun-100 p-4 rounded-xl border border-sun-200">
-                            <span class="text-[10px] font-bold text-sun-850 uppercase block mb-1">Status Dokumen:</span>
-                            <p class="text-[11px] text-slate-700 leading-relaxed">
-                                Dokumen ini telah disetujui oleh Koordinator PPG UNY dan siap diakses sebagai bahan akreditasi dan bukti refleksi pendidik profesional.
-                            </p>
-                        </div>
                     </div>
-
-                    <div class="space-y-3">
+                    <div>
                         <a :href="driveLinks.refleksiAkhir" target="_blank" class="w-full py-3 bg-sky-500 hover:bg-sky-600 text-white font-bold rounded-xl flex items-center justify-center space-x-2 transition-colors text-xs">
-                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                            </svg>
-                            <span>Baca dalam Ukuran Penuh</span>
+                            <span>Baca dalam Ukuran Penuh ↗</span>
                         </a>
                     </div>
                 </div>
@@ -730,129 +678,34 @@
                             <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span>
                             <span>Pratinjau Dokumen Refleksi Akhir Komprehensif</span>
                         </span>
-                        <span class="text-[10px] text-slate-400">Format: Google Docs PDF</span>
+                        <span class="text-[10px] text-slate-400">Format: Google Docs / PDF</span>
                     </div>
 
-                    <div class="w-full h-[320px] sm:h-[400px] md:h-[450px] border border-cloud-200 rounded-xl bg-cloud-100 relative shadow-inner overflow-hidden">
+                    <div class="w-full h-[350px] sm:h-[450px] border border-cloud-200 rounded-xl bg-cloud-100 relative shadow-inner overflow-hidden">
                         <iframe :src="getEmbedUrl(driveLinks.refleksiAkhir)" class="w-full h-full" allow="autoplay" frameborder="0"></iframe>
                     </div>
-                    <p class="text-[11px] text-slate-400 italic text-center">
-                        *Gunakan roda gulir mouse atau usap layar di atas frame untuk menggulir halaman laporan refleksi akhir.
-                    </p>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-              <div class="bg-white p-5 sm:p-6 md:p-8 rounded-2xl shadow-sm border border-cloud-200 space-y-6">
-                <div class="border-l-4 border-sky-500 pl-4">
-                  <span class="text-xs font-bold text-sky-600 uppercase">Arah Kompetensi</span>
-                  <h3 class="text-xl font-bold text-slate-900">Misi Pendidik Yohanes Jelly Sonda</h3>
-                </div>
-
-                <p class="text-slate-600 text-sm leading-relaxed">
-                  Menjadi guru abad 21 mengharuskan saya menyeimbangkan kecakapan teknologi, kepekaan emosional, serta kepatuhan moral yang kokoh. Untuk itu, misi utama saya mencakup:
-                </p>
-
-                <div class="space-y-4">
-                  <div class="flex space-x-3 items-start">
-                    <div class="w-6 h-6 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center shrink-0 mt-0.5">
-                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138z" />
-                        </svg>
-                    </div>
-                    <div>
-                      <h4 class="font-bold text-slate-900 text-sm">Menyelenggarakan Kelas yang Inklusif</h4>
-                      <p class="text-xs text-slate-500 mt-1">Mengakomodasi segala latar belakang kemampuan, karakter sosial, dan keunikan gaya belajar anak didik tanpa membedakan.</p>
-                    </div>
-                  </div>
-
-                  <div class="flex space-x-3 items-start">
-                    <div class="w-6 h-6 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center shrink-0 mt-0.5">
-                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                        </svg>
-                    </div>
-                    <div>
-                      <h4 class="font-bold text-slate-900 text-sm">Menanamkan Akhlak & Budi Pekerti (Karakter)</h4>
-                      <p class="text-xs text-slate-500 mt-1">Mengintegrasikan nilai-nilai karakter luhur Pancasila di sela materi ajar guna menyeimbangkan inteligensi kognitif.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="space-y-6">
-                <div class="bg-slate-900 text-white p-6 rounded-2xl shadow-md space-y-4">
-                  <span class="text-xs font-bold text-sun-400 uppercase tracking-widest block">Filosofi Mengajar</span>
-                  <h4 class="text-lg font-bold">"Ing Ngarsa Sung Tulada, Ing Madya Mangun Karsa, Tut Wuri Handayani"</h4>
-                  <p class="text-slate-300 text-xs leading-relaxed">
-                    Filosofi agung ini senantiasa memandu tindakan saya di kelas. Di depan, saya harus konsisten menjadi suri teladan ucapan dan tingkah laku. Di tengah, saya harus berkolaborasi membangkitkan kemauan berkarya.
-                  </p>
-                </div>
-
-                <div class="bg-white p-6 rounded-2xl border border-cloud-200 space-y-4">
-                  <h4 class="font-bold text-slate-900 text-xs sm:text-sm uppercase tracking-wider">Kompetensi Guru Profesional yang Built-in</h4>
-                  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="p-3 bg-sky-50 rounded-xl text-center">
-                      <span class="font-bold text-xs text-sky-700 block mb-1">Pedagogik</span>
-                      <p class="text-[10px] text-slate-600">Paham esensi penguasaan kelas dan karakteristik siswa.</p>
-                    </div>
-                    <div class="p-3 bg-sky-50 rounded-xl text-center">
-                      <span class="font-bold text-xs text-sky-700 block mb-1">Sosial</span>
-                      <p class="text-[10px] text-slate-600">Terbuka menjalin sinergi dengan wali murid dan sejawat.</p>
-                    </div>
-                    <div class="p-3 bg-sky-50 rounded-xl text-center">
-                      <span class="font-bold text-xs text-sky-700 block mb-1">Kepribadian</span>
-                      <p class="text-[10px] text-slate-600">Kedewasaan bersikap, berwibawa, dan berakhlak mulia.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+            <!-- SWOT Analysis Grid -->
             <div class="bg-white p-5 sm:p-6 md:p-8 rounded-2xl shadow-sm border border-cloud-200 space-y-8">
               <h3 class="text-xl font-bold text-slate-950 text-center">Analisis SWOT & Rencana Tindak Lanjut</h3>
               <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                 <div class="p-5 bg-emerald-50 rounded-xl border border-emerald-100 space-y-2">
                   <span class="font-bold text-emerald-800 text-sm uppercase tracking-wider block">Kekuatan (Strengths)</span>
-                  <p class="text-xs text-slate-700 leading-relaxed">
-                    Memiliki kemampuan adaptasi teknologi yang sangat baik, ramah dan supel berkomunikasi dengan siswa, serta rajin merancang media ajar visual yang kreatif.
-                  </p>
+                  <p class="text-xs text-slate-700 leading-relaxed">Memiliki kemampuan adaptasi teknologi yang sangat baik, ramah berkomunikasi dengan siswa, serta rajin merancang media ajar kreatif.</p>
                 </div>
                 <div class="p-5 bg-red-50 rounded-xl border border-red-100 space-y-2">
                   <span class="font-bold text-red-800 text-sm uppercase tracking-wider block">Kelemahan (Weaknesses)</span>
-                  <p class="text-xs text-slate-700 leading-relaxed">
-                    Seringkali terlalu detail memikirkan teknis pembelajaran sehingga terkadang kewalahan mengelola waktu presentasi kelompok siswa agar tepat jadwal.
-                  </p>
+                  <p class="text-xs text-slate-700 leading-relaxed">Seringkali terlalu detail memikirkan teknis sehingga terkadang perlu meningkatkan manajemen waktu presentasi kelompok.</p>
                 </div>
                 <div class="p-5 bg-sky-50 rounded-xl border border-sky-100 space-y-2">
                   <span class="font-bold text-sky-800 text-sm uppercase tracking-wider block">Peluang (Opportunities)</span>
-                  <p class="text-xs text-slate-700 leading-relaxed">
-                    Dukungan dari komunitas rekan mahasiswa PPG Prajabatan UNY dan bimbingan terbuka dari para guru pamong senior di SMKN 5 Yogyakarta.
-                  </p>
+                  <p class="text-xs text-slate-700 leading-relaxed">Dukungan dari komunitas rekan mahasiswa PPG Prajabatan UNY dan bimbingan terbuka guru pamong di SMKN 5 Yogyakarta.</p>
                 </div>
                 <div class="p-5 bg-blue-50 rounded-xl border border-sky-100 space-y-2">
                   <span class="font-bold text-blue-800 text-sm uppercase tracking-wider block">Tantangan (Threats)</span>
-                  <p class="text-xs text-slate-700 leading-relaxed">
-                    Heterogenitas tingkat pemahaman membaca dan menulis siswa di kelas pasca pandemi membutuhkan waktu asimilasi materi ajar yang panjang.
-                  </p>
-                </div>
-              </div>
-
-              <div class="bg-slate-900 text-white p-5 sm:p-6 rounded-xl space-y-4">
-                <span class="text-xs font-bold text-sky-400 uppercase tracking-widest block">Rencana Tindak Lanjut Pengembangan Diri</span>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs leading-relaxed text-slate-300">
-                  <div class="space-y-1 border-l border-sky-500 pl-3">
-                    <strong class="text-white block">Jangka Pendek (1-3 Bulan):</strong>
-                    Menyusun panduan pengisian LKPD yang jauh lebih ringkas dan eksplisit dengan menambahkan ilustrasi video instruksi singkat yang ramah disimak siswa.
-                  </div>
-                  <div class="space-y-1 border-l border-sky-500 pl-3">
-                    <strong class="text-white block">Jangka Menengah (3-6 Bulan):</strong>
-                    Meningkatkan literasi pedagogik terkait metode penanganan kelas inklusif dan mempraktikkan teknik manajemen waktu "Time-boxing" saat diskusi kelompok.
-                  </div>
-                  <div class="space-y-1 border-l border-sky-500 pl-3">
-                    <strong class="text-white block">Jangka Panjang (1 Tahun):</strong>
-                    Melanjutkan sertifikasi keahlian teknologi pendidikan dan aktif membagikan karya modul ajar digital ke platform Merdeka Mengajar (PMM).
-                  </div>
+                  <p class="text-xs text-slate-700 leading-relaxed">Heterogenitas tingkat pemahaman literasi digital siswa yang beragam membutuhkan waktu asimilasi materi yang adaptif.</p>
                 </div>
               </div>
             </div>
@@ -864,13 +717,12 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
           <div class="flex justify-center items-center space-x-2">
             <div class="w-10 h-10 flex items-center justify-center overflow-hidden rounded-lg bg-white p-0.5 shadow-sm">
-                <img src="uny.png" alt="Logo UNY" class="w-full h-full object-contain" 
-                     onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/a/ab/Logo_UNY.png';" />
+                <img src="uny.png" alt="Logo UNY" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/a/ab/Logo_UNY.png';" />
             </div>
             <span class="text-white font-bold">Yohanes Jelly Sonda</span>
           </div>
           <p class="text-xs max-w-md mx-auto">
-            Portofolio ini disusun secara mandiri sebagai bentuk pertanggungjawaban akademik, reflection profesi, dan komitmen menuju guru profesional yang berintegritas.
+            Portofolio ini disusun secara mandiri sebagai bentuk pertanggungjawaban akademik, refleksi profesi, dan komitmen menuju guru profesional yang berintegritas.
           </p>
           <div class="text-[10px] text-slate-500 border-t border-slate-800/80 pt-4 flex flex-col sm:flex-row justify-between items-center gap-2">
             <span>© 2026 Yohanes Jelly Sonda. All rights reserved.</span>
@@ -883,30 +735,23 @@
         </div>
     </footer>
 
-    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-cloud-200 z-40 shadow-lg px-2 py-2" x-show="!isLoading" x-cloak>
+    <!-- Mobile Bottom Floating Navigation (Android / iOS Touch Friendly) -->
+    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur border-t border-cloud-200 z-40 shadow-lg px-2 py-2" x-show="!isLoading" x-cloak>
         <div class="grid grid-cols-4 gap-1">
-            <button @click="activeTab = 'home'; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'home' ? 'text-sky-500 bg-sky-50' : 'text-slate-500'" class="flex flex-col items-center justify-center py-1.5 rounded-lg transition-all">
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
+            <button @click="activeTab = 'home'; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'home' ? 'text-sky-600 bg-sky-50 font-bold' : 'text-slate-500'" class="flex flex-col items-center justify-center py-1.5 rounded-lg transition-all">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                 <span class="text-[10px] mt-1 font-medium">Profil</span>
             </button>
-            <button @click="activeTab = 'artefak'; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'artefak' ? 'text-sky-500 bg-sky-50' : 'text-slate-500'" class="flex flex-col items-center justify-center py-1.5 rounded-lg transition-all">
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                </svg>
+            <button @click="activeTab = 'artefak'; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'artefak' ? 'text-sky-600 bg-sky-50 font-bold' : 'text-slate-500'" class="flex flex-col items-center justify-center py-1.5 rounded-lg transition-all">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
                 <span class="text-[10px] mt-1 font-medium">Artefak</span>
             </button>
-            <button @click="activeTab = 'penilaian'; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'penilaian' ? 'text-sky-500 bg-sky-50' : 'text-slate-500'" class="flex flex-col items-center justify-center py-1.5 rounded-lg transition-all">
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 00.1.0" />
-                </svg>
+            <button @click="activeTab = 'penilaian'; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'penilaian' ? 'text-sky-600 bg-sky-50 font-bold' : 'text-slate-500'" class="flex flex-col items-center justify-center py-1.5 rounded-lg transition-all">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 00.1.0" /></svg>
                 <span class="text-[10px] mt-1 font-medium">Penilaian</span>
             </button>
-            <button @click="activeTab = 'refleksi'; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'refleksi' ? 'text-sky-500 bg-sky-50' : 'text-slate-500'" class="flex flex-col items-center justify-center py-1.5 rounded-lg transition-all">
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                </svg>
+            <button @click="activeTab = 'refleksi'; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'refleksi' ? 'text-sky-600 bg-sky-50 font-bold' : 'text-slate-500'" class="flex flex-col items-center justify-center py-1.5 rounded-lg transition-all">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
                 <span class="text-[10px] mt-1 font-medium">Refleksi</span>
             </button>
         </div>
