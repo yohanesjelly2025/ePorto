@@ -3,7 +3,7 @@
 <head> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <link rel="icon" type="iamge/png" href="favicon.png">
+    <link rel="icon" type="image/png" href="favicon.png">
     <title>E-Portfolio - Yohanes Jelly Sonda</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -11,7 +11,7 @@
             theme: {
                 extend: {
                     colors: {
-                        sun: { // Yellow Summer Sun (Solid)
+                        sun: {
                             50: '#fefce8',
                             100: '#fef9c3',
                             200: '#fef08a',
@@ -23,7 +23,7 @@
                             850: '#854d0e',
                             950: '#422006',
                         },
-                        sky: { // Sky Blue (Solid)
+                        sky: {
                             50: '#f0f9ff',
                             100: '#e0f2fe',
                             200: '#bae6fd',
@@ -35,7 +35,7 @@
                             800: '#075985',
                             950: '#082f49',
                         },
-                        cloud: { // White Cloud
+                        cloud: {
                             50: '#f8fafc',
                             100: '#f1f5f9',
                             200: '#e2e8f0',
@@ -59,7 +59,6 @@
         }
         [x-cloak] { display: none !important; }
 
-        /* Animasi Khusus */
         @keyframes float {
             0%, 100% { transform: translateY(0px) rotate(0deg); }
             50% { transform: translateY(-12px) rotate(0.5deg); }
@@ -91,7 +90,6 @@
           isLoading: true,
           isMobileMenuOpen: false,
           
-          /* Tautan Google Drive Dokumen Resmi PPL Yohanes */
           driveLinks: {
               modulAjar: 'https://drive.google.com/file/d/1ETA6EPvASvKNvAqje6gcXsvezYq8MXdk/view?usp=sharing', 
               mediaInteraktif: 'https://drive.google.com/file/d/1xoOyBTdjaU1cxH43yJzrMyjzxYIbLQGy/view?usp=sharing', 
@@ -103,11 +101,9 @@
               refleksiAkhir: 'https://docs.google.com/document/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUYqyayX/preview'
           },
           
-          /* State Peninjau Aktif untuk Pengunjung */
           activeArtefakPreview: 'modulAjar',
           activePenilaianPreview: 'penilaianPamong',
 
-          /* Fungsi bantu untuk mengubah link sharing biasa menjadi link preview/embed yang kompatibel */
           getEmbedUrl(url) {
               if (!url) return '';
               let cleanUrl = url.trim();
@@ -161,7 +157,6 @@
     <header class="sticky top-0 z-40 bg-sun-400 border-b border-sun-500 shadow-sm transition-all" x-show="!isLoading" x-cloak>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16 sm:h-20">
-                <!-- Logo & Name -->
                 <div class="flex items-center space-x-3 cursor-pointer" @click="activeTab = 'home'; window.scrollTo({top: 0, behavior: 'smooth'})">
                     <div class="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center overflow-hidden rounded-xl bg-white p-1 shadow-sm border border-sun-500/20">
                         <img src="uny.png" alt="Logo UNY" class="w-full h-full object-contain" 
@@ -173,7 +168,6 @@
                     </div>
                 </div>
 
-                <!-- Desktop Navigation Menu -->
                 <nav class="hidden md:flex items-center space-x-1 lg:space-x-2">
                     <button @click="activeTab = 'home'; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'home' ? 'bg-sky-600 text-white shadow' : 'text-slate-900 hover:bg-sun-500/50 hover:text-slate-950'" class="px-3 lg:px-4 py-2 rounded-lg text-sm font-medium transition-all">
                         Beranda
@@ -192,7 +186,6 @@
                     </a>
                 </nav>
 
-                <!-- Mobile Menu Toggle Button (Android / iOS) -->
                 <div class="flex md:hidden items-center space-x-2">
                     <button @click="isMobileMenuOpen = !isMobileMenuOpen" class="bg-white/50 p-2 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-600">
                         <svg x-show="!isMobileMenuOpen" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -212,7 +205,6 @@
             </div>
         </div>
 
-        <!-- Dropdown Menu for Mobile Devices (Android / iOS) -->
         <div x-show="isMobileMenuOpen" 
              x-transition:enter="transition ease-out duration-200"
              x-transition:enter-start="opacity-0 -translate-y-2"
@@ -252,20 +244,22 @@
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
                     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center">
                         <div class="lg:col-span-5 flex flex-col items-center justify-center">
+                          <!-- ==== FOTO PROFIL TANPA BACKGROUND ==== -->
                           <div class="relative group animate-float">
+                            <!-- Dekorasi orbit tetap dipertahankan (opsional) -->
                             <div class="absolute -inset-6 border border-dashed border-sky-500/20 rounded-full animate-orbit-cw pointer-events-none"></div>
                             <div class="absolute -inset-3 border border-sun-400/30 rounded-full animate-orbit-ccw pointer-events-none">
                                 <div class="absolute top-0 left-1/2 w-2 h-2 bg-sun-400 rounded-full -translate-x-1/2"></div>
                                 <div class="absolute bottom-0 left-1/2 w-2.5 h-2.5 bg-sky-300 rounded-full -translate-x-1/2 animate-ping"></div>
                             </div>
-                            <div class="absolute -inset-1.5 bg-sky-400 rounded-full blur opacity-70 group-hover:opacity-100 transition duration-300"></div>
-                            
-                            <div class="relative rounded-full w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-80 overflow-hidden flex flex-col justify-between bg-transparent">
-                              <div class="absolute inset-0 z-10 w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-transparent">
-                                <img src="yoejelly.png" alt="Yohanes Jelly Sonda" class="w-full h-full  rounded-full transition-all duration-700 select-none brightness-[98%] contrast-[102%] saturate-[102%]" />
-                              </div>
+
+                            <!-- FOTO: tidak ada bg blur, tidak ada masking lingkaran -->
+                            <div class="relative w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-80 flex items-center justify-center bg-transparent">
+                              <img src="yoejelly.png" alt="Yohanes Jelly Sonda" 
+                                   class="w-full h-full object-contain transition-all duration-700 select-none drop-shadow-xl" />
                             </div> 
                             
+                            <!-- Badge Lokasi -->
                             <div class="absolute -bottom-2 -right-2 sm:-bottom-3 sm:-right-3 bg-sky-600 text-white px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl border border-sky-400 text-[10px] sm:text-xs font-bold flex items-center space-x-1.5 sm:space-x-2 z-20 shadow-md">
                               <svg class="w-4 h-4 text-sun-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -274,6 +268,7 @@
                               <span>Sintang, Kalbar</span>
                             </div>
                           </div>
+                          <!-- ==== END FOTO PROFIL ==== -->
                         </div>
 
                         <div class="lg:col-span-7 relative z-10 overflow-hidden rounded-3xl border border-sky-200 bg-white p-5 sm:p-6 md:p-8 shadow-xl">
@@ -401,7 +396,7 @@
                         </p>
 
                         <div class="bg-sky-50 p-5 rounded-xl text-center border-l-4 border-sun-400 space-y-2 relative overflow-hidden">
-                            <span class="absolute top-1 left-2 text-6xl text-sky-200/50 font-serif">“</span>
+                            <span class="absolute top-1 left-2 text-6xl text-sky-200/50 font-serif">"</span>
                             <p class="italic font-medium text-xs sm:text-sm text-slate-700 relative z-10">
                                 "Teknologi hanyalah alat. Namun dalam memotivasi murid dan menginspirasi kolaborasi, gurulah yang paling utama."
                             </p>
@@ -592,7 +587,6 @@
                         </p>
                         
                         <div class="space-y-2 pt-2">
-                            <!-- 1. Penilaian Guru Pamong -->
                             <button @click="activePenilaianPreview = 'penilaianPamong'" 
                                     :class="activePenilaianPreview === 'penilaianPamong' ? 'bg-sky-500 text-white' : 'bg-white text-slate-700 hover:bg-sky-100 border border-cloud-200'"
                                     class="w-full p-3.5 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
@@ -603,7 +597,6 @@
                                 <span class="text-[10px] px-2 py-0.5 rounded bg-white/20 font-bold">GP</span>
                             </button>
 
-                            <!-- 2. Pratinjau Penilaian Dosen Pembimbing Lapangan -->
                             <button @click="activePenilaianPreview = 'penilaianDpl'" 
                                     :class="activePenilaianPreview === 'penilaianDpl' ? 'bg-sky-500 text-white' : 'bg-white text-slate-700 hover:bg-sky-100 border border-cloud-200'"
                                     class="w-full p-3.5 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
@@ -687,7 +680,6 @@
                 </div>
             </div>
 
-            <!-- SWOT Analysis Grid -->
             <div class="bg-white p-5 sm:p-6 md:p-8 rounded-2xl shadow-sm border border-cloud-200 space-y-8">
               <h3 class="text-xl font-bold text-slate-950 text-center">Analisis SWOT & Rencana Tindak Lanjut</h3>
               <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
@@ -735,7 +727,6 @@
         </div>
     </footer>
 
-    <!-- Mobile Bottom Floating Navigation (Android / iOS Touch Friendly) -->
     <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur border-t border-cloud-200 z-40 shadow-lg px-2 py-2" x-show="!isLoading" x-cloak>
         <div class="grid grid-cols-4 gap-1">
             <button @click="activeTab = 'home'; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'home' ? 'text-sky-600 bg-sky-50 font-bold' : 'text-slate-500'" class="flex flex-col items-center justify-center py-1.5 rounded-lg transition-all">
