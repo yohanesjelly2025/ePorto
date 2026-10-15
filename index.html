@@ -94,6 +94,10 @@
               modulAjar: 'https://drive.google.com/file/d/1ETA6EPvASvKNvAqje6gcXsvezYq8MXdk/view?usp=sharing', 
               mediaInteraktif: 'https://drive.google.com/file/d/1xoOyBTdjaU1cxH43yJzrMyjzxYIbLQGy/view?usp=sharing', 
               asesmenHots: 'https://drive.google.com/file/d/1YnYVtQH96yl2KR5-736cWUp6ndpAxNTu/view?usp=sharing',
+              instrumen: 'penilaianGP.pdf',
+              modelGuru: 'model.pdf',
+              refleksiArtefak: 'Refleksi.pdf',
+              filosofiMengajar: 'FilosofiMengajar.pdf',
               rppMandiri: 'rppOke.pdf',
               lampiran7: 'https://docs.google.com/spreadsheets/d/1_m9S39h2Y_V4hZpP6VlRjV7uW8u_6O_X/preview', 
               lampiran8: 'https://docs.google.com/document/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUYqyayX/preview',
@@ -109,8 +113,8 @@
               if (!url) return '';
               let cleanUrl = url.trim();
               
-              if (cleanUrl === 'rppOke.pdf') {
-                  return 'rppOke.pdf';
+              if (cleanUrl.endsWith('.pdf') || !cleanUrl.startsWith('http')) {
+                  return cleanUrl;
               }
 
               if (cleanUrl.includes('drive.google.com/file/d/')) {
@@ -538,7 +542,6 @@
                 </div>
             </div>
 
-            <!-- Produk Video Pelaksanaan Praktik Mengajar Mandiri -->
             <div class="bg-white rounded-3xl border border-cloud-200 shadow-md overflow-hidden p-6 sm:p-8 space-y-6">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-cloud-100 pb-4 gap-4">
                     <div>
@@ -575,38 +578,80 @@
                             Gunakan panel di bawah ini untuk mengganti berkas yang ingin ditinjau secara langsung pada frame preview.
                         </p>
                         
-                        <div class="space-y-2 pt-2">
-                            <button @click="activeArtefakPreview = 'modulAjar'" :class="activeArtefakPreview === 'modulAjar' ? 'bg-sky-500 text-white' : 'bg-white text-slate-700 hover:bg-sky-100 border border-cloud-200'" class="w-full p-3.5 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
-                                <span class="flex items-center space-x-2">
-                                    <span class="w-2 h-2 rounded-full" :class="activeArtefakPreview === 'modulAjar' ? 'bg-sun-300' : 'bg-sky-500'"></span>
-                                    <span>RPP (Siklus 1)</span>
-                                </span>
-                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
-                            </button>
+                        <div class="space-y-4 pt-2">
+                            <!-- Group 1: RPP Tiga Siklus -->
+                            <div class="space-y-2">
+                                <span class="text-[10px] font-extrabold tracking-wider text-slate-400 uppercase block px-1">Perangkat RPP 3 Siklus</span>
+                                
+                                <button @click="activeArtefakPreview = 'modulAjar'" :class="activeArtefakPreview === 'modulAjar' ? 'bg-sky-500 text-white shadow-sm' : 'bg-white text-slate-700 hover:bg-sky-50 border border-cloud-200'" class="w-full p-3 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
+                                    <span class="flex items-center space-x-2">
+                                        <span class="w-2 h-2 rounded-full" :class="activeArtefakPreview === 'modulAjar' ? 'bg-sun-300' : 'bg-sky-500'"></span>
+                                        <span>RPP (Siklus 1)</span>
+                                    </span>
+                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                                </button>
 
-                            <button @click="activeArtefakPreview = 'mediaInteraktif'" :class="activeArtefakPreview === 'mediaInteraktif' ? 'bg-sky-500 text-white' : 'bg-white text-slate-700 hover:bg-sky-100 border border-cloud-200'" class="w-full p-3.5 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
-                                <span class="flex items-center space-x-2">
-                                    <span class="w-2 h-2 rounded-full" :class="activeArtefakPreview === 'mediaInteraktif' ? 'bg-sun-300' : 'bg-sky-400'"></span>
-                                    <span>RPP (Siklus 2)</span>
-                                </span>
-                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
-                            </button>
+                                <button @click="activeArtefakPreview = 'mediaInteraktif'" :class="activeArtefakPreview === 'mediaInteraktif' ? 'bg-sky-500 text-white shadow-sm' : 'bg-white text-slate-700 hover:bg-sky-50 border border-cloud-200'" class="w-full p-3 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
+                                    <span class="flex items-center space-x-2">
+                                        <span class="w-2 h-2 rounded-full" :class="activeArtefakPreview === 'mediaInteraktif' ? 'bg-sun-300' : 'bg-sky-400'"></span>
+                                        <span>RPP (Siklus 2)</span>
+                                    </span>
+                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                                </button>
 
-                            <button @click="activeArtefakPreview = 'asesmenHots'" :class="activeArtefakPreview === 'asesmenHots' ? 'bg-sky-500 text-white' : 'bg-white text-slate-700 hover:bg-sky-100 border border-cloud-200'" class="w-full p-3.5 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
-                                <span class="flex items-center space-x-2">
-                                    <span class="w-2 h-2 rounded-full" :class="activeArtefakPreview === 'asesmenHots' ? 'bg-sun-300' : 'bg-sun-500'"></span>
-                                    <span>RPP (Siklus 3)</span>
-                                </span>
-                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
-                            </button>
+                                <button @click="activeArtefakPreview = 'asesmenHots'" :class="activeArtefakPreview === 'asesmenHots' ? 'bg-sky-500 text-white shadow-sm' : 'bg-white text-slate-700 hover:bg-sky-50 border border-cloud-200'" class="w-full p-3 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
+                                    <span class="flex items-center space-x-2">
+                                        <span class="w-2 h-2 rounded-full" :class="activeArtefakPreview === 'asesmenHots' ? 'bg-sun-300' : 'bg-sun-500'"></span>
+                                        <span>RPP (Siklus 3)</span>
+                                    </span>
+                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                                </button>
+                            </div>
+
+                            <!-- Group 2: Sub Menu Tambahan Artefak & Analisis -->
+                            <div class="space-y-2 pt-2 border-t border-cloud-200">
+                                <span class="text-[10px] font-extrabold tracking-wider text-slate-400 uppercase block px-1 pt-1">Dokumen Sub Menu</span>
+
+                                <button @click="activeArtefakPreview = 'instrumen'" :class="activeArtefakPreview === 'instrumen' ? 'bg-sky-500 text-white shadow-sm' : 'bg-white text-slate-700 hover:bg-sky-50 border border-cloud-200'" class="w-full p-3 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
+                                    <span class="flex items-center space-x-2">
+                                        <span class="w-2 h-2 rounded-full" :class="activeArtefakPreview === 'instrumen' ? 'bg-sun-300' : 'bg-emerald-500'"></span>
+                                        <span>Instrumen</span>
+                                    </span>
+                                    <span class="text-[10px] font-mono opacity-80 px-1.5 py-0.5 rounded bg-slate-100 text-slate-600" :class="activeArtefakPreview === 'instrumen' ? 'bg-sky-600 text-white' : ''">penilaianGP.pdf</span>
+                                </button>
+
+                                <button @click="activeArtefakPreview = 'modelGuru'" :class="activeArtefakPreview === 'modelGuru' ? 'bg-sky-500 text-white shadow-sm' : 'bg-white text-slate-700 hover:bg-sky-50 border border-cloud-200'" class="w-full p-3 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
+                                    <span class="flex items-center space-x-2">
+                                        <span class="w-2 h-2 rounded-full" :class="activeArtefakPreview === 'modelGuru' ? 'bg-sun-300' : 'bg-indigo-500'"></span>
+                                        <span>Model Guru</span>
+                                    </span>
+                                    <span class="text-[10px] font-mono opacity-80 px-1.5 py-0.5 rounded bg-slate-100 text-slate-600" :class="activeArtefakPreview === 'modelGuru' ? 'bg-sky-600 text-white' : ''">model.pdf</span>
+                                </button>
+
+                                <button @click="activeArtefakPreview = 'refleksiArtefak'" :class="activeArtefakPreview === 'refleksiArtefak' ? 'bg-sky-500 text-white shadow-sm' : 'bg-white text-slate-700 hover:bg-sky-50 border border-cloud-200'" class="w-full p-3 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
+                                    <span class="flex items-center space-x-2">
+                                        <span class="w-2 h-2 rounded-full" :class="activeArtefakPreview === 'refleksiArtefak' ? 'bg-sun-300' : 'bg-amber-500'"></span>
+                                        <span>Refleksi</span>
+                                    </span>
+                                    <span class="text-[10px] font-mono opacity-80 px-1.5 py-0.5 rounded bg-slate-100 text-slate-600" :class="activeArtefakPreview === 'refleksiArtefak' ? 'bg-sky-600 text-white' : ''">Refleksi.pdf</span>
+                                </button>
+
+                                <button @click="activeArtefakPreview = 'filosofiMengajar'" :class="activeArtefakPreview === 'filosofiMengajar' ? 'bg-sky-500 text-white shadow-sm' : 'bg-white text-slate-700 hover:bg-sky-50 border border-cloud-200'" class="w-full p-3 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
+                                    <span class="flex items-center space-x-2">
+                                        <span class="w-2 h-2 rounded-full" :class="activeArtefakPreview === 'filosofiMengajar' ? 'bg-sun-300' : 'bg-purple-500'"></span>
+                                        <span>Filosofi Mengajar</span>
+                                    </span>
+                                    <span class="text-[10px] font-mono opacity-80 px-1.5 py-0.5 rounded bg-slate-100 text-slate-600" :class="activeArtefakPreview === 'filosofiMengajar' ? 'bg-sky-600 text-white' : ''">FilosofiMengajar.pdf</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="bg-white p-4 rounded-xl border border-cloud-200 text-[11px] space-y-2">
+                    <div class="bg-white p-4 rounded-xl border border-cloud-200 text-[11px] space-y-2 mt-4">
                         <span class="font-extrabold text-slate-800 uppercase block border-b border-cloud-100 pb-1.5">Informasi Berkas</span>
                         <div class="flex justify-between">
                             <span class="text-slate-500">Format Embed:</span>
-                            <span class="font-bold text-sky-600">Google Drive Preview</span>
+                            <span class="font-bold text-sky-600" x-text="driveLinks[activeArtefakPreview] && driveLinks[activeArtefakPreview].endsWith('.pdf') ? 'PDF Document' : 'Google Drive Preview'"></span>
                         </div>
                         <div class="pt-2">
                             <a :href="driveLinks[activeArtefakPreview]" target="_blank" class="w-full py-2 bg-sun-400 hover:bg-sun-500 text-slate-900 font-bold rounded-lg flex items-center justify-center space-x-1 transition-colors text-xs">
@@ -623,11 +668,15 @@
                             <span x-show="activeArtefakPreview === 'modulAjar'">Pratinjau RPP (Siklus 1)</span>
                             <span x-show="activeArtefakPreview === 'mediaInteraktif'">Pratinjau RPP (Siklus 2)</span>
                             <span x-show="activeArtefakPreview === 'asesmenHots'">Pratinjau RPP (Siklus 3)</span>
+                            <span x-show="activeArtefakPreview === 'instrumen'">Pratinjau Instrumen Penilaian (penilaianGP.pdf)</span>
+                            <span x-show="activeArtefakPreview === 'modelGuru'">Pratinjau Model Guru (model.pdf)</span>
+                            <span x-show="activeArtefakPreview === 'refleksiArtefak'">Pratinjau Refleksi (Refleksi.pdf)</span>
+                            <span x-show="activeArtefakPreview === 'filosofiMengajar'">Pratinjau Filosofi Mengajar (FilosofiMengajar.pdf)</span>
                         </span>
                         <span class="text-[10px] text-slate-400">SMKN 5 Yogyakarta</span>
                     </div>
 
-                    <div class="w-full h-[350px] sm:h-[450px] border border-cloud-200 rounded-xl bg-cloud-100 relative shadow-inner overflow-hidden">
+                    <div class="w-full h-[380px] sm:h-[500px] border border-cloud-200 rounded-xl bg-cloud-100 relative shadow-inner overflow-hidden">
                         <iframe :src="getEmbedUrl(driveLinks[activeArtefakPreview])" class="w-full h-full" allow="autoplay" frameborder="0"></iframe>
                     </div>
                 </div>
@@ -793,7 +842,6 @@
         </div>
     </footer>
 
-    <!-- Mobile Sticky Navigation Bar -->
     <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur border-t border-cloud-200 z-40 shadow-lg px-2 py-2" x-show="!isLoading" x-cloak>
         <div class="grid grid-cols-5 gap-1">
             <button @click="activeTab = 'home'; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'home' ? 'text-sky-600 bg-sky-50 font-bold' : 'text-slate-500'" class="flex flex-col items-center justify-center py-1.5 rounded-lg transition-all">
