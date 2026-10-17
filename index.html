@@ -103,17 +103,49 @@
               lampiran8: 'https://docs.google.com/document/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUYqyayX/preview',
               penilaianPamong: 'https://docs.google.com/document/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUYqyayX/preview',
               penilaianDpl: 'https://docs.google.com/document/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUYqyayX/preview',
-              refleksiAkhir: 'https://docs.google.com/document/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUYqyayX/preview'
+              refleksiAkhir: 'https://docs.google.com/document/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUYqyayX/preview',
+
+              /* Tautan Semester 2 */
+              eport1_rpp1: 'https://drive.google.com/file/d/1Z2m8XqR9aN65cfdrUh0BB_N8xHknf6kn/view?usp=sharing',
+              eport1_materi: 'https://drive.google.com/file/d/1j3UEHISuq2LxIvOJPxQHbgfLxmrzU-UE/view?usp=sharing',
+              eport1_media: 'https://yohanesjelly2025.github.io/strukturdata_xKayuA/',
+
+              eport2_rpp2: 'https://drive.google.com/file/d/1nr1BQSHS7ansgJug2K1nsEO_FX7VqCns/view?usp=sharing',
+              eport2_rpp3: 'https://drive.google.com/file/d/1IekdAs5HBmhwnm0ZTXpDilH5b2SxFAkG/view?usp=sharing',
+              eport2_rpp4: 'https://drive.google.com/file/d/18Ycz43qI5gRhcjb8gm3yKNIGgp-0qasx/view?usp=sharing',
+              eport2_video: 'https://www.youtube.com/watch?v=_u3COnqEkSE'
           },
           
           activeArtefakPreview: 'modulAjar',
-          activePenilaianPreview: 'penilaianPamong',
+
+          /* State untuk Semester 2 */
+          activeSmt2MainTab: 'eport1',
+          activeSmt2Eport1Sub: 'rpp1',
+          activeSmt2Eport2Sub: 'rpp2',
+
+          nonMengajarPhotos: [
+              'https://drive.google.com/file/d/1A13n3Ejq0t1eKistkTQ1TNs4iZCtVEuk/view?usp=sharing',
+              'https://drive.google.com/file/d/1myZ4tAf5IofLdZV-l1OFs3MFOvOMUH6v/view?usp=sharing',
+              'https://drive.google.com/file/d/1cmUyrzl_PDueYNIkX-zMKtnzucwTZ8gz/view?usp=sharing',
+              'https://drive.google.com/file/d/117jyv4nUIytGANDh_7vSBX-IzodrAq3q/view?usp=sharing',
+              'https://drive.google.com/file/d/1u79p8YiULa8Joo8ruNMbA7Nf5Ch4s7R3/view?usp=sharing',
+              'https://drive.google.com/file/d/1oXW6fBCgVXTtMfBYGwPxddH-QljaG76c/view?usp=sharing',
+              'https://drive.google.com/file/d/14R1hdUUlzmwuStWMDlMKx9eUnRL3FqG6/view?usp=sharing'
+          ],
+          photoIndex: 0,
+
+          prevPhoto() {
+              this.photoIndex = (this.photoIndex - 1 + this.nonMengajarPhotos.length) % this.nonMengajarPhotos.length;
+          },
+          nextPhoto() {
+              this.photoIndex = (this.photoIndex + 1) % this.nonMengajarPhotos.length;
+          },
 
           getEmbedUrl(url) {
               if (!url) return '';
               let cleanUrl = url.trim();
               
-              if (cleanUrl.endsWith('.pdf') || !cleanUrl.startsWith('http')) {
+              if (cleanUrl.endsWith('.pdf') || cleanUrl.includes('yohanesjelly2025.github.io')) {
                   return cleanUrl;
               }
 
@@ -187,14 +219,14 @@
                     <button @click="activeTab = 'praktik'; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'praktik' ? 'bg-sky-600 text-white shadow' : 'text-slate-900 hover:bg-sun-500/50 hover:text-slate-950'" class="px-3 lg:px-4 py-2 rounded-lg text-sm font-medium transition-all">
                         Praktik Mengajar
                     </button>
-                    <button @click="activeTab = 'penilaian'; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'penilaian' ? 'bg-sky-600 text-white shadow' : 'text-slate-900 hover:bg-sun-500/50 hover:text-slate-950'" class="px-3 lg:px-4 py-2 rounded-lg text-sm font-medium transition-all">
-                        Penilaian GP & DPL
+                    <button @click="activeTab = 'semester2'; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'semester2' ? 'bg-sky-600 text-white shadow' : 'text-slate-900 hover:bg-sun-500/50 hover:text-slate-950'" class="px-3 lg:px-4 py-2 rounded-lg text-sm font-medium transition-all">
+                        Semester 2
                     </button>
                     <button @click="activeTab = 'refleksi'; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'refleksi' ? 'bg-sky-600 text-white shadow' : 'text-slate-900 hover:bg-sun-500/50 hover:text-slate-950'" class="px-3 lg:px-4 py-2 rounded-lg text-sm font-medium transition-all">
                         Refleksi
                     </button>
-                    <a href="https://yohanesjelly2025.github.io/seminar/" class="px-3 lg:px-4 py-2 rounded-lg text-sm font-medium text-slate-900 hover:bg-sun-500/50 hover:text-slate-950 transition-all inline-block">
-                        Seminar PPG
+                    <a href="https://yohanesjelly2025.github.io/seminar/" target="_blank" class="px-3 lg:px-4 py-2 rounded-lg text-sm font-medium text-slate-900 hover:bg-sun-500/50 hover:text-slate-950 transition-all inline-block">
+                        Seminar PPG ↗
                     </a>
                 </nav>
 
@@ -236,8 +268,8 @@
                 <button @click="activeTab = 'praktik'; isMobileMenuOpen = false; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'praktik' ? 'bg-sky-50 text-sky-600 font-bold' : 'text-slate-700'" class="w-full text-left px-4 py-3 rounded-xl text-sm transition-all flex items-center space-x-3">
                     <span>Praktik Mengajar SMKN 5 Yogyakarta</span>
                 </button>
-                <button @click="activeTab = 'penilaian'; isMobileMenuOpen = false; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'penilaian' ? 'bg-sky-50 text-sky-600 font-bold' : 'text-slate-700'" class="w-full text-left px-4 py-3 rounded-xl text-sm transition-all flex items-center space-x-3">
-                    <span>Penilaian GP & DPL</span>
+                <button @click="activeTab = 'semester2'; isMobileMenuOpen = false; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'semester2' ? 'bg-sky-50 text-sky-600 font-bold' : 'text-slate-700'" class="w-full text-left px-4 py-3 rounded-xl text-sm transition-all flex items-center space-x-3">
+                    <span>Semester 2</span>
                 </button>
                 <button @click="activeTab = 'refleksi'; isMobileMenuOpen = false; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'refleksi' ? 'bg-sky-50 text-sky-600 font-bold' : 'text-slate-700'" class="w-full text-left px-4 py-3 rounded-xl text-sm transition-all flex items-center space-x-3">
                     <span>Refleksi Akhir</span>
@@ -563,9 +595,9 @@
         <div x-show="activeTab === 'artefak'" x-transition:enter="transition ease-out duration-300" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12" x-cloak>
             <div class="text-center max-w-3xl mx-auto space-y-3">
                 <span class="text-sky-600 text-xs font-bold uppercase tracking-widest block">Dokumentasi & Kajian</span>
-                <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900">Analisis Artefak Pembelajaran</h2>
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900">Analisis Artefak Pembelajaran SMT 1</h2>
                 <p class="text-sm sm:text-base text-slate-600">
-                    Berikut adalah ragam produk rencana dan perangkat pembelajaran yang dikembangkan selama siklus PPL Terbimbing.
+                    Berikut adalah ragam produk rencana dan perangkat pembelajaran yang dikembangkan selama siklus PPL Terbimbing Semester 1.
                 </p>
             </div>
 
@@ -683,73 +715,268 @@
             </div>
         </div>
 
-        <div x-show="activeTab === 'penilaian'" x-transition:enter="transition ease-out duration-300" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12" x-cloak>
+        <div x-show="activeTab === 'semester2'" x-transition:enter="transition ease-out duration-300" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10" x-cloak>
             <div class="text-center max-w-3xl mx-auto space-y-3">
-              <span class="text-sky-600 text-xs font-bold uppercase tracking-widest block">Evaluasi Resmi</span>
-              <h2 class="text-3xl md:text-4xl font-extrabold text-slate-950">Instrumen Penilaian PPL Terbimbing</h2>
+              <span class="text-sky-600 text-xs font-bold uppercase tracking-widest block">Dokumentasi & Portofolio Lanjutan</span>
+              <h2 class="text-3xl md:text-4xl font-extrabold text-slate-950">Semester 2 - E-Portofolio</h2>
               <p class="text-sm sm:text-base text-slate-600">
-                Dokumentasi transparansi nilai evaluasi kompetensi akademik dan kepribadian mengajar yang diberikan oleh Guru Pamong (GP) serta Dosen Pembimbing Lapangan (DPL).
+                Kumpulan rancangan pembelajaran, materi, media interaktif, dokumentasi kegiatan non-mengajar, serta video praktik pembelajaran Semester 2 PPL SMKN 5 Yogyakarta.
               </p>
             </div>
 
-            <div class="bg-white rounded-3xl border border-cloud-200 shadow-md overflow-hidden grid grid-cols-1 lg:grid-cols-12">
-                <div class="lg:col-span-4 bg-cloud-50 p-5 sm:p-6 border-r border-cloud-200 flex flex-col justify-between space-y-6">
-                    <div class="space-y-4">
-                        <span class="text-[10px] font-bold tracking-widest uppercase text-sky-600 block">Hub Peninjau Penilaian</span>
-                        <h3 class="text-xl font-extrabold text-slate-900">Pilih Berkas Penilaian</h3>
-                        <p class="text-xs text-slate-500 leading-relaxed">
-                            Pilih dokumen resmi di bawah ini untuk menampilkan pindaian hasil penilaian asli.
-                        </p>
-                        
-                        <div class="space-y-2 pt-2">
-                            <button @click="activePenilaianPreview = 'penilaianPamong'" 
-                                    :class="activePenilaianPreview === 'penilaianPamong' ? 'bg-sky-500 text-white' : 'bg-white text-slate-700 hover:bg-sky-100 border border-cloud-200'"
-                                    class="w-full p-3.5 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
-                                <span class="flex items-center space-x-2">
-                                    <span class="w-2.5 h-2.5 rounded-full" :class="activePenilaianPreview === 'penilaianPamong' ? 'bg-sun-300' : 'bg-sky-500'"></span>
-                                    <span>1. Penilaian Guru Pamong</span>
-                                </span>
-                                <span class="text-[10px] px-2 py-0.5 rounded bg-white/20 font-bold">GP</span>
-                            </button>
+            <!-- Top Switcher Menu: E-Portofolio 1 VS E-Portofolio 2 -->
+            <div class="flex justify-center border-b border-cloud-200 pb-4">
+                <div class="inline-flex bg-cloud-100 p-1.5 rounded-2xl border border-cloud-200 space-x-2">
+                    <button @click="activeSmt2MainTab = 'eport1'"
+                            :class="activeSmt2MainTab === 'eport1' ? 'bg-sky-600 text-white shadow-md font-extrabold' : 'text-slate-600 hover:text-slate-900 hover:bg-white/60 font-semibold'"
+                            class="px-5 sm:px-8 py-2.5 rounded-xl text-xs sm:text-sm transition-all flex items-center space-x-2">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                        <span>E-Portofolio 1</span>
+                    </button>
+                    <button @click="activeSmt2MainTab = 'eport2'"
+                            :class="activeSmt2MainTab === 'eport2' ? 'bg-sky-600 text-white shadow-md font-extrabold' : 'text-slate-600 hover:text-slate-900 hover:bg-white/60 font-semibold'"
+                            class="px-5 sm:px-8 py-2.5 rounded-xl text-xs sm:text-sm transition-all flex items-center space-x-2">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                        <span>E-Portofolio 2</span>
+                    </button>
+                </div>
+            </div>
 
-                            <button @click="activePenilaianPreview = 'penilaianDpl'" 
-                                    :class="activePenilaianPreview === 'penilaianDpl' ? 'bg-sky-500 text-white' : 'bg-white text-slate-700 hover:bg-sky-100 border border-cloud-200'"
-                                    class="w-full p-3.5 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
-                                <span class="flex items-center space-x-2">
-                                    <span class="w-2.5 h-2.5 rounded-full" :class="activePenilaianPreview === 'penilaianDpl' ? 'bg-sun-300' : 'bg-sky-400'"></span>
-                                    <span>2. Penilaian DPL</span>
-                                </span>
-                                <span class="text-[10px] px-2 py-0.5 rounded bg-white/20 font-bold">DPL</span>
-                            </button>
+            <div x-show="activeSmt2MainTab === 'eport1'" x-transition:enter="transition ease-out duration-300" class="space-y-8">
+                <div class="bg-white rounded-3xl border border-cloud-200 shadow-md overflow-hidden grid grid-cols-1 lg:grid-cols-12">
+                    <div class="lg:col-span-4 bg-cloud-50 p-5 sm:p-6 border-r border-cloud-200 flex flex-col justify-between space-y-6">
+                        <div class="space-y-4">
+                            <span class="text-[10px] font-bold tracking-widest uppercase text-sky-600 block">E-Portofolio 1</span>
+                            <h3 class="text-xl font-extrabold text-slate-900">Pilih Sub Menu</h3>
+                            <p class="text-xs text-slate-500 leading-relaxed">
+                                Silakan pilih item di bawah ini untuk melihat dokumen atau dokumentasi kegiatan non-mengajar.
+                            </p>
+                            
+                            <div class="space-y-2 pt-2">
+                                <button @click="activeSmt2Eport1Sub = 'rpp1'" 
+                                        :class="activeSmt2Eport1Sub === 'rpp1' ? 'bg-sky-500 text-white shadow' : 'bg-white text-slate-700 hover:bg-sky-50 border border-cloud-200'"
+                                        class="w-full p-3.5 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
+                                    <span class="flex items-center space-x-2">
+                                        <span class="w-2.5 h-2.5 rounded-full" :class="activeSmt2Eport1Sub === 'rpp1' ? 'bg-sun-300' : 'bg-sky-500'"></span>
+                                        <span>Produk Rancangan Pembelajaran & Rubrik</span>
+                                    </span>
+                                    <svg class="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                                </button>
+
+                                <button @click="activeSmt2Eport1Sub = 'materi'" 
+                                        :class="activeSmt2Eport1Sub === 'materi' ? 'bg-sky-500 text-white shadow' : 'bg-white text-slate-700 hover:bg-sky-50 border border-cloud-200'"
+                                        class="w-full p-3.5 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
+                                    <span class="flex items-center space-x-2">
+                                        <span class="w-2.5 h-2.5 rounded-full" :class="activeSmt2Eport1Sub === 'materi' ? 'bg-sun-300' : 'bg-indigo-500'"></span>
+                                        <span>Materi Pembelajaran</span>
+                                    </span>
+                                    <svg class="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                                </button>
+
+                                <button @click="activeSmt2Eport1Sub = 'media'" 
+                                        :class="activeSmt2Eport1Sub === 'media' ? 'bg-sky-500 text-white shadow' : 'bg-white text-slate-700 hover:bg-sky-50 border border-cloud-200'"
+                                        class="w-full p-3.5 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
+                                    <span class="flex items-center space-x-2">
+                                        <span class="w-2.5 h-2.5 rounded-full" :class="activeSmt2Eport1Sub === 'media' ? 'bg-sun-300' : 'bg-emerald-500'"></span>
+                                        <span>Media Pembelajaran Web</span>
+                                    </span>
+                                    <svg class="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                                </button>
+
+                                <button @click="activeSmt2Eport1Sub = 'nonMengajar'" 
+                                        :class="activeSmt2Eport1Sub === 'nonMengajar' ? 'bg-sky-500 text-white shadow' : 'bg-white text-slate-700 hover:bg-sky-50 border border-cloud-200'"
+                                        class="w-full p-3.5 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
+                                    <span class="flex items-center space-x-2">
+                                        <span class="w-2.5 h-2.5 rounded-full" :class="activeSmt2Eport1Sub === 'nonMengajar' ? 'bg-sun-300' : 'bg-amber-500'"></span>
+                                        <span>Kegiatan Non-Mengajar (Galeri Foto)</span>
+                                    </span>
+                                    <svg class="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl border border-cloud-200 text-[11px] space-y-2">
+                            <span class="font-extrabold text-slate-800 uppercase block border-b border-cloud-100 pb-1.5">Informasi Berkas</span>
+                            <div class="flex justify-between">
+                                <span class="text-slate-500">Tipe Konten:</span>
+                                <span class="font-bold text-sky-600" x-text="activeSmt2Eport1Sub === 'media' ? 'Web Application' : (activeSmt2Eport1Sub === 'nonMengajar' ? 'Galeri Slide (7 Foto)' : 'Dokumen Drive')"></span>
+                            </div>
+                            <div class="pt-2">
+                                <a x-show="activeSmt2Eport1Sub === 'rpp1'" :href="driveLinks.eport1_rpp1" target="_blank" class="w-full py-2 bg-sun-400 hover:bg-sun-500 text-slate-900 font-bold rounded-lg flex items-center justify-center space-x-1 transition-colors text-xs">
+                                    <span>Buka RPP Siklus 1 ↗</span>
+                                </a>
+                                <a x-show="activeSmt2Eport1Sub === 'materi'" :href="driveLinks.eport1_materi" target="_blank" class="w-full py-2 bg-sun-400 hover:bg-sun-500 text-slate-900 font-bold rounded-lg flex items-center justify-center space-x-1 transition-colors text-xs">
+                                    <span>Buka Materi Pembelajaran ↗</span>
+                                </a>
+                                <a x-show="activeSmt2Eport1Sub === 'media'" :href="driveLinks.eport1_media" target="_blank" class="w-full py-2 bg-sun-400 hover:bg-sun-500 text-slate-900 font-bold rounded-lg flex items-center justify-center space-x-1 transition-colors text-xs">
+                                    <span>Buka Media Interaktif Web ↗</span>
+                                </a>
+                                <a x-show="activeSmt2Eport1Sub === 'nonMengajar'" :href="nonMengajarPhotos[photoIndex]" target="_blank" class="w-full py-2 bg-sun-400 hover:bg-sun-500 text-slate-900 font-bold rounded-lg flex items-center justify-center space-x-1 transition-colors text-xs">
+                                    <span>Buka Foto Aktif di Tab Baru ↗</span>
+                                </a>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="bg-white p-4 rounded-xl border border-cloud-200 text-[11px] space-y-2">
-                        <span class="font-extrabold text-slate-800 uppercase block border-b border-cloud-100 pb-1.5">Validasi Dokumen</span>
-                        <div class="flex justify-between">
-                            <span class="text-slate-500">Status:</span>
-                            <span class="font-bold text-emerald-600">Disahkan Resmi</span>
+                    <div class="lg:col-span-8 p-5 sm:p-6 flex flex-col justify-between space-y-4">
+                        <div class="flex items-center justify-between border-b border-cloud-100 pb-3">
+                            <span class="text-xs font-bold text-slate-500 flex items-center space-x-1.5">
+                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span>
+                                <span x-show="activeSmt2Eport1Sub === 'rpp1'">Pratinjau: Produk Rancangan Pembelajaran & Rubrik (RPP Siklus 1 Lengkap)</span>
+                                <span x-show="activeSmt2Eport1Sub === 'materi'">Pratinjau: Materi Pembelajaran</span>
+                                <span x-show="activeSmt2Eport1Sub === 'media'">Pratinjau Media Interaktif: Struktur Data X Kayu A</span>
+                                <span x-show="activeSmt2Eport1Sub === 'nonMengajar'">Pratinjau: Slide Foto Kegiatan Non-Mengajar PPL</span>
+                            </span>
+                            <span class="text-[10px] text-slate-400">SMKN 5 Yogyakarta</span>
                         </div>
-                        <div class="pt-2">
-                            <a :href="driveLinks[activePenilaianPreview]" target="_blank" class="w-full py-2 bg-sun-400 hover:bg-sun-500 text-slate-900 font-bold rounded-lg flex items-center justify-center space-x-1 transition-colors text-xs">
-                                <span>Buka Tab Baru ↗</span>
-                            </a>
+
+                        <!-- Iframe for Documents & Web Media -->
+                        <div x-show="activeSmt2Eport1Sub !== 'nonMengajar'" class="w-full h-[400px] sm:h-[520px] border border-cloud-200 rounded-xl bg-cloud-100 relative shadow-inner overflow-hidden">
+                            <iframe x-show="activeSmt2Eport1Sub === 'rpp1'" :src="getEmbedUrl(driveLinks.eport1_rpp1)" class="w-full h-full" allow="autoplay" frameborder="0"></iframe>
+                            <iframe x-show="activeSmt2Eport1Sub === 'materi'" :src="getEmbedUrl(driveLinks.eport1_materi)" class="w-full h-full" allow="autoplay" frameborder="0"></iframe>
+                            <iframe x-show="activeSmt2Eport1Sub === 'media'" :src="driveLinks.eport1_media" class="w-full h-full" allow="autoplay" frameborder="0"></iframe>
+                        </div>
+
+                        <!-- Photo Slide Carousel for Kegiatan Non-Mengajar -->
+                        <div x-show="activeSmt2Eport1Sub === 'nonMengajar'" class="space-y-4">
+                            <div class="relative w-full h-[360px] sm:h-[460px] border border-cloud-200 rounded-2xl bg-slate-900 overflow-hidden shadow-md flex items-center justify-center">
+                                <iframe :src="getEmbedUrl(nonMengajarPhotos[photoIndex])" class="w-full h-full" frameborder="0" allow="autoplay"></iframe>
+
+                                <!-- Slide controls -->
+                                <button @click="prevPhoto()" class="absolute left-3 top-1/2 -translate-y-1/2 bg-slate-900/80 hover:bg-sky-600 text-white p-2.5 rounded-full shadow-lg border border-white/20 transition-all focus:outline-none">
+                                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+                                </button>
+                                <button @click="nextPhoto()" class="absolute right-3 top-1/2 -translate-y-1/2 bg-slate-900/80 hover:bg-sky-600 text-white p-2.5 rounded-full shadow-lg border border-white/20 transition-all focus:outline-none">
+                                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                                </button>
+
+                                <div class="absolute bottom-3 right-3 bg-slate-900/80 text-white px-3 py-1 rounded-full text-xs font-bold border border-white/20">
+                                    <span x-text="photoIndex + 1"></span> / <span x-text="nonMengajarPhotos.length"></span>
+                                </div>
+                            </div>
+
+                            <!-- Photo dots switcher -->
+                            <div class="flex items-center justify-center space-x-2">
+                                <template x-for="(photo, index) in nonMengajarPhotos" :key="index">
+                                    <button @click="photoIndex = index" 
+                                            :class="photoIndex === index ? 'w-8 bg-sky-600' : 'w-2.5 bg-cloud-300 hover:bg-sky-400'" 
+                                            class="h-2.5 rounded-full transition-all duration-300"
+                                            :title="'Foto ' + (index + 1)"></button>
+                                </template>
+                            </div>
+
+                            <!-- Caption for Kegiatan Non-Mengajar -->
+                            <div class="p-4 sm:p-5 bg-sky-50 rounded-2xl border border-sky-200 space-y-2 text-slate-800">
+                                <div class="flex items-center space-x-2 text-sky-700 font-extrabold text-xs uppercase tracking-wider">
+                                    <svg class="w-4 h-4 text-sun-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                    <span>Keterangan Kegiatan Non-Mengajar</span>
+                                </div>
+                                <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                    Kegiatan Non-Mengajar saat PPL di SMKN 5 Yogyakarta meliputi: salam sapa seminggu sekali dengan pembagian mengikuti jadwal piket, mengikuti upacara bendera setiap senin dan upacara hari besar, membersamai murid melaksanakan kewirausahaan, Serta mengawas murid saat ujian, mengikuti Refleksi kemerdekaan Bersama Para Guru dan Karyawan SMKN 5 yoyakarta, pertemuandan melakukan seminar Diseminasi Canva Ai untuk Guru SMKN 5 Yoyakarta dalam melaksanakan Proyek Kepemimpinan.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="lg:col-span-8 p-5 sm:p-6 flex flex-col justify-between space-y-4">
-                    <div class="flex items-center justify-between border-b border-cloud-100 pb-3">
-                        <span class="text-xs font-bold text-slate-500 flex items-center space-x-1.5">
-                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span>
-                            <span x-show="activePenilaianPreview === 'penilaianPamong'">Pratinjau: Penilaian Guru Pamong</span>
-                            <span x-show="activePenilaianPreview === 'penilaianDpl'">Pratinjau: Penilaian Dosen Pembimbing Lapangan (DPL)</span>
-                        </span>
-                        <span class="text-[10px] text-slate-400">Dokumen PDF Asli</span>
+            <div x-show="activeSmt2MainTab === 'eport2'" x-transition:enter="transition ease-out duration-300" class="space-y-8">
+                <div class="bg-white rounded-3xl border border-cloud-200 shadow-md overflow-hidden grid grid-cols-1 lg:grid-cols-12">
+                    <div class="lg:col-span-4 bg-cloud-50 p-5 sm:p-6 border-r border-cloud-200 flex flex-col justify-between space-y-6">
+                        <div class="space-y-4">
+                            <span class="text-[10px] font-bold tracking-widest uppercase text-sky-600 block">E-Portofolio 2</span>
+                            <h3 class="text-xl font-extrabold text-slate-900">Pilih Sub Menu</h3>
+                            <p class="text-xs text-slate-500 leading-relaxed">
+                                Silakan pilih dokumen produk rancangan pembelajaran atau tonton video praktik pembelajaran.
+                            </p>
+                            
+                            <div class="space-y-2 pt-2">
+                                <button @click="activeSmt2Eport2Sub = 'rpp2'" 
+                                        :class="activeSmt2Eport2Sub === 'rpp2' ? 'bg-sky-500 text-white shadow' : 'bg-white text-slate-700 hover:bg-sky-50 border border-cloud-200'"
+                                        class="w-full p-3.5 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
+                                    <span class="flex items-center space-x-2">
+                                        <span class="w-2.5 h-2.5 rounded-full" :class="activeSmt2Eport2Sub === 'rpp2' ? 'bg-sun-300' : 'bg-sky-500'"></span>
+                                        <span>Produk Rancangan Pembelajaran (Siklus 2)</span>
+                                    </span>
+                                    <svg class="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                                </button>
+
+                                <button @click="activeSmt2Eport2Sub = 'rpp3'" 
+                                        :class="activeSmt2Eport2Sub === 'rpp3' ? 'bg-sky-500 text-white shadow' : 'bg-white text-slate-700 hover:bg-sky-50 border border-cloud-200'"
+                                        class="w-full p-3.5 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
+                                    <span class="flex items-center space-x-2">
+                                        <span class="w-2.5 h-2.5 rounded-full" :class="activeSmt2Eport2Sub === 'rpp3' ? 'bg-sun-300' : 'bg-sky-400'"></span>
+                                        <span>Produk Rancangan Pembelajaran (Siklus 3)</span>
+                                    </span>
+                                    <svg class="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                                </button>
+
+                                <button @click="activeSmt2Eport2Sub = 'rpp4'" 
+                                        :class="activeSmt2Eport2Sub === 'rpp4' ? 'bg-sky-500 text-white shadow' : 'bg-white text-slate-700 hover:bg-sky-50 border border-cloud-200'"
+                                        class="w-full p-3.5 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
+                                    <span class="flex items-center space-x-2">
+                                        <span class="w-2.5 h-2.5 rounded-full" :class="activeSmt2Eport2Sub === 'rpp4' ? 'bg-sun-300' : 'bg-sun-500'"></span>
+                                        <span>Produk Rancangan Pembelajaran (Siklus 4)</span>
+                                    </span>
+                                    <svg class="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                                </button>
+
+                                <button @click="activeSmt2Eport2Sub = 'video'" 
+                                        :class="activeSmt2Eport2Sub === 'video' ? 'bg-sky-500 text-white shadow' : 'bg-white text-slate-700 hover:bg-sky-50 border border-cloud-200'"
+                                        class="w-full p-3.5 rounded-xl text-left text-xs font-bold flex items-center justify-between transition-all">
+                                    <span class="flex items-center space-x-2">
+                                        <span class="w-2.5 h-2.5 rounded-full" :class="activeSmt2Eport2Sub === 'video' ? 'bg-sun-300' : 'bg-red-500'"></span>
+                                        <span>Video Praktik Pembelajaran</span>
+                                    </span>
+                                    <svg class="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl border border-cloud-200 text-[11px] space-y-2">
+                            <span class="font-extrabold text-slate-800 uppercase block border-b border-cloud-100 pb-1.5">Informasi Berkas</span>
+                            <div class="flex justify-between">
+                                <span class="text-slate-500">Tipe Konten:</span>
+                                <span class="font-bold text-sky-600" x-text="activeSmt2Eport2Sub === 'video' ? 'YouTube Video' : 'PDF Document'"></span>
+                            </div>
+                            <div class="pt-2">
+                                <a x-show="activeSmt2Eport2Sub === 'rpp2'" :href="driveLinks.eport2_rpp2" target="_blank" class="w-full py-2 bg-sun-400 hover:bg-sun-500 text-slate-900 font-bold rounded-lg flex items-center justify-center space-x-1 transition-colors text-xs">
+                                    <span>Buka RPP Siklus 2 ↗</span>
+                                </a>
+                                <a x-show="activeSmt2Eport2Sub === 'rpp3'" :href="driveLinks.eport2_rpp3" target="_blank" class="w-full py-2 bg-sun-400 hover:bg-sun-500 text-slate-900 font-bold rounded-lg flex items-center justify-center space-x-1 transition-colors text-xs">
+                                    <span>Buka RPP Siklus 3 ↗</span>
+                                </a>
+                                <a x-show="activeSmt2Eport2Sub === 'rpp4'" :href="driveLinks.eport2_rpp4" target="_blank" class="w-full py-2 bg-sun-400 hover:bg-sun-500 text-slate-900 font-bold rounded-lg flex items-center justify-center space-x-1 transition-colors text-xs">
+                                    <span>Buka RPP Siklus 4 ↗</span>
+                                </a>
+                                <a x-show="activeSmt2Eport2Sub === 'video'" href="https://www.youtube.com/watch?v=_u3COnqEkSE&feature=youtu.be" target="_blank" class="w-full py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg flex items-center justify-center space-x-1 transition-colors text-xs">
+                                    <span>Tonton di YouTube ↗</span>
+                                </a>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="w-full h-[350px] sm:h-[450px] border border-cloud-200 rounded-xl bg-cloud-100 relative shadow-inner overflow-hidden">
-                        <iframe :src="getEmbedUrl(driveLinks[activePenilaianPreview])" class="w-full h-full" allow="autoplay" frameborder="0"></iframe>
+                    <div class="lg:col-span-8 p-5 sm:p-6 flex flex-col justify-between space-y-4">
+                        <div class="flex items-center justify-between border-b border-cloud-100 pb-3">
+                            <span class="text-xs font-bold text-slate-500 flex items-center space-x-1.5">
+                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span>
+                                <span x-show="activeSmt2Eport2Sub === 'rpp2'">Pratinjau: Produk Rancangan Pembelajaran (Siklus 2)</span>
+                                <span x-show="activeSmt2Eport2Sub === 'rpp3'">Pratinjau: Produk Rancangan Pembelajaran (Siklus 3)</span>
+                                <span x-show="activeSmt2Eport2Sub === 'rpp4'">Pratinjau: Produk Rancangan Pembelajaran (Siklus 4)</span>
+                                <span x-show="activeSmt2Eport2Sub === 'video'">Pratinjau: Video Praktik Pembelajaran</span>
+                            </span>
+                            <span class="text-[10px] text-slate-400">SMKN 5 Yogyakarta</span>
+                        </div>
+
+                        <div x-show="activeSmt2Eport2Sub !== 'video'" class="w-full h-[400px] sm:h-[520px] border border-cloud-200 rounded-xl bg-cloud-100 relative shadow-inner overflow-hidden">
+                            <iframe x-show="activeSmt2Eport2Sub === 'rpp2'" :src="getEmbedUrl(driveLinks.eport2_rpp2)" class="w-full h-full" allow="autoplay" frameborder="0"></iframe>
+                            <iframe x-show="activeSmt2Eport2Sub === 'rpp3'" :src="getEmbedUrl(driveLinks.eport2_rpp3)" class="w-full h-full" allow="autoplay" frameborder="0"></iframe>
+                            <iframe x-show="activeSmt2Eport2Sub === 'rpp4'" :src="getEmbedUrl(driveLinks.eport2_rpp4)" class="w-full h-full" allow="autoplay" frameborder="0"></iframe>
+                        </div>
+
+                        <div x-show="activeSmt2Eport2Sub === 'video'" class="w-full aspect-video bg-slate-900 rounded-2xl overflow-hidden shadow-xl border border-slate-800">
+                            <iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/_u3COnqEkSE" title="Video Praktik Pembelajaran" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -842,6 +1069,7 @@
         </div>
     </footer>
 
+    <!-- Mobile Bottom Fixed Navigation Bar -->
     <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur border-t border-cloud-200 z-40 shadow-lg px-2 py-2" x-show="!isLoading" x-cloak>
         <div class="grid grid-cols-5 gap-1">
             <button @click="activeTab = 'home'; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'home' ? 'text-sky-600 bg-sky-50 font-bold' : 'text-slate-500'" class="flex flex-col items-center justify-center py-1.5 rounded-lg transition-all">
@@ -850,15 +1078,15 @@
             </button>
             <button @click="activeTab = 'artefak'; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'artefak' ? 'text-sky-600 bg-sky-50 font-bold' : 'text-slate-500'" class="flex flex-col items-center justify-center py-1.5 rounded-lg transition-all">
                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
-                <span class="text-[9px] mt-1 font-medium">Artefak</span>
+                <span class="text-[9px] mt-1 font-medium">SMT 1</span>
             </button>
             <button @click="activeTab = 'praktik'; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'praktik' ? 'text-sky-600 bg-sky-50 font-bold' : 'text-slate-500'" class="flex flex-col items-center justify-center py-1.5 rounded-lg transition-all">
                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
                 <span class="text-[9px] mt-1 font-medium">Praktik</span>
             </button>
-            <button @click="activeTab = 'penilaian'; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'penilaian' ? 'text-sky-600 bg-sky-50 font-bold' : 'text-slate-500'" class="flex flex-col items-center justify-center py-1.5 rounded-lg transition-all">
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 00.1.0" /></svg>
-                <span class="text-[9px] mt-1 font-medium">Nilai</span>
+            <button @click="activeTab = 'semester2'; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'semester2' ? 'text-sky-600 bg-sky-50 font-bold' : 'text-slate-500'" class="flex flex-col items-center justify-center py-1.5 rounded-lg transition-all">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                <span class="text-[9px] mt-1 font-medium">SMT 2</span>
             </button>
             <button @click="activeTab = 'refleksi'; window.scrollTo({top: 0, behavior: 'smooth'})" :class="activeTab === 'refleksi' ? 'text-sky-600 bg-sky-50 font-bold' : 'text-slate-500'" class="flex flex-col items-center justify-center py-1.5 rounded-lg transition-all">
                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
